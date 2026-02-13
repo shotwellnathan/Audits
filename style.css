@@ -213,7 +213,7 @@ input[type="checkbox"]{
   flex-direction: row;
   gap: 18px;
   align-items: center;
-  margin-bottom: 10px; /* ← THIS adds space above Notes */
+  margin-bottom: 20px; /* ← THIS adds space above Notes */
 }
 
 .auditItem .ynOptions label{
