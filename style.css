@@ -200,19 +200,13 @@ details summary::-webkit-details-marker{ display:none; }
   margin-bottom: 8px;
 }
 
-.yn{
+.ynOptions {
   display: flex;
-  flex-direction: column; /* question → options → notes */
-  gap: 10px;
+  gap: 18px;
+  align-items: center;
 }
 
-/* YES / NO side-by-side */
-.ynOptions{
-  display: flex;
-  gap: 32px;
-}
-
-.ynOptions label{
+.ynOptions label {
   display: flex;
   align-items: center;
   gap: 6px;
