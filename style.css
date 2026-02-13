@@ -201,6 +201,10 @@ details summary::-webkit-details-marker{ display:none; }
 
 /* --- Audit Yes / No layout --- */
 
+/* SSI tighter spacing */
+.auditItem .ynOptions { margin-bottom: 0; }
+.auditItem .yn { margin-bottom: 6px; }
+
 .auditSection{
   margin: 18px 0 10px;
   padding-top: 6px;
