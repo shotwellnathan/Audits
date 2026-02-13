@@ -6,9 +6,11 @@
   <title>Food Audit</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="bg"></div>
 
+  <!-- Top Bar -->
   <header class="topbar">
     <div class="brandText">
       <div class="title">Food Audit</div>
@@ -21,6 +23,7 @@
     </nav>
   </header>
 
+  <!-- Main -->
   <main class="wrap">
     <section class="card">
       <header class="cardHeader">
@@ -30,31 +33,42 @@
 
       <div class="cardBody">
         <form id="auditForm" class="stack">
+
+          <!-- REQUIRED FOR HISTORY -->
           <input type="hidden" name="audit_type" value="Food Audit" />
 
+          <!-- Header fields -->
           <div class="panel">
             <div class="grid2">
               <div class="field">
                 <label>Auditor (optional)</label>
                 <input name="auditor" placeholder="Your name" />
               </div>
+
               <div class="field">
                 <label>Audit Date</label>
                 <input type="date" name="audit_date" id="audit_date" />
               </div>
+
               <div class="field">
                 <label>Time (optional)</label>
                 <input type="time" name="audit_time" />
               </div>
+
               <div class="field">
                 <label>Notes (optional)</label>
-                <input name="header_notes" placeholder="Shift / manager on duty / anything important" />
+                <input
+                  name="header_notes"
+                  placeholder="Shift / manager on duty / anything important"
+                />
               </div>
             </div>
           </div>
 
-          <div id="questions"></div>
+          <!-- QUESTIONS GO HERE -->
+          <div id="questions" class="stack"></div>
 
+          <!-- Submit -->
           <div class="panel">
             <div class="row">
               <a class="btn" href="index.html">Cancel</a>
@@ -64,6 +78,7 @@
               Saved locally on this device. Email to store management when finished.
             </p>
           </div>
+
         </form>
       </div>
     </section>
@@ -71,73 +86,78 @@
     <div class="foot">Store 3158 • Food Audit</div>
   </main>
 
+  <!-- Scripts -->
   <script src="app.js"></script>
   <script>
-    // set today's date default
-    const d = new Date();
-    document.getElementById("audit_date").value = d.toISOString().slice(0,10);
+    // Default date = today
+    const today = new Date();
+    document.getElementById("audit_date").value =
+      today.toISOString().slice(0, 10);
 
-    // Build the checklist from your exact wording:
+    // Build the audit (ORDER MATCHES YOUR PHOTOS)
     const items = [
-  section("Trash"),
-  yn("Outside trash not overflowing?"),
 
-  section("Restrooms"),
-  yn("Restrooms clean/Restroom checklist in use?"),
-  yn("Restrooms stocked? (toilet paper, soap, paper towels)"),
+      section("Trash"),
+      yn("Outside trash not overflowing?"),
 
-  section("Uniforms"),
-  yn("Company uniform policy being followed?"),
-  yn("BreakTime approved hair restraint in use?"),
+      section("Restrooms"),
+      yn("Restrooms clean / restroom checklist in use?"),
+      yn("Restrooms stocked? (toilet paper, soap, paper towels)"),
 
-  section("Coffee"),
-  yn("Sugar tower clean & stocked?"),
-  yn("All counters organized, tidy, clutter free?"),
-  yn("Creamers stocked? (Bulk and Singles)"),
-  yn("Cappuccino machine clean and all flavors available?"),
+      section("Uniforms"),
+      yn("Company uniform policy being followed?"),
+      yn("BreakTime approved hair restraint in use?"),
 
-  section("Tea"),
-  yn("Tea available and timed correctly?"),
+      section("Coffee"),
+      yn("Sugar tower clean & stocked?"),
+      yn("All counters organized, tidy, clutter free?"),
+      yn("Creamers stocked? (Bulk and Singles)"),
+      yn("Cappuccino machine clean and all flavors available?"),
 
-  section("Soda Fountain"),
-  yn("Nozzles clean?"),
-  yn("Back splash free from soda spillage?"),
-  yn("Mats in use?"),
-  yn("Cups and Lids stocked?"),
+      section("Tea"),
+      yn("Tea available and timed correctly?"),
 
-  section("Slushies"),
-  yn("Filled, clean, and ready to serve?"),
+      section("Soda Fountain"),
+      yn("Nozzles clean?"),
+      yn("Back splash free from soda spillage?"),
+      yn("Mats in use?"),
+      yn("Cups and lids stocked?"),
 
-  section("Hunt Bros Pizza"),
-  yn("Product available and timed correctly?"),
-  yn("Pizza case is clean?"),
-  yn("Make table is rotated/dated correctly? (In & out of date must be shown on toppings)"),
-  yn("Toppings chart posted and being followed?"),
+      section("Slushies"),
+      yn("Filled, clean, and ready to serve?"),
 
-  section("Food Island"),
-  yn("Counters clean & tidy?"),
-  yn("Are all products offered available and timed correctly?"),
+      section("Hunt Bros Pizza"),
+      yn("Product available and timed correctly?"),
+      yn("Pizza case is clean?"),
+      yn("Make table rotated / dated correctly? (In & out of date shown)"),
+      yn("Toppings chart posted and being followed?"),
 
-  section("Kitchen"),
-  yn("3 compartment sink being used correctly? (wash: filled with soap, rinse: clean and empty, sanitize: strips being used to test)"),
-  yn("BreakTime only approved food products being prepared and served?"),
-  yn("Is probe thermometer available and in use?"),
-  yn("Hand washing procedure being followed?"),
-  yn("Bibs do not exceed 30 days past use by date on case?"),
-  yn("Waste sheet in use?"),
-  yn("Product not being stored in totes in cooler/freezer?"),
-  yn("Cooler/freezer temps within guidelines?"),
+      section("Food Island"),
+      yn("Counters clean & tidy?"),
+      yn("All products offered available and timed correctly?"),
 
-  section("Open Air Cooler"),
-  yn("No out of dates/product being rotated?"),
+      section("Kitchen"),
+      yn("3 compartment sink used correctly? (wash / rinse / sanitize)"),
+      yn("BreakTime approved food products only?"),
+      yn("Probe thermometer available and in use?"),
+      yn("Hand washing procedure being followed?"),
+      yn("BIBs not exceeding 30 days past use-by date?"),
+      yn("Waste sheet in use?"),
+      yn("Product not stored in totes in cooler/freezer?"),
+      yn("Cooler / freezer temps within guidelines?"),
 
-  section("Conclusion"),
-  notesOnly("Notes"),
-  notesOnly("Score"),
-  yn("MOD available to do a walkthrough with auditor?")
-];
+      section("Open Air Cooler"),
+      yn("No out-of-dates / product being rotated?"),
+
+      section("Conclusion"),
+      notesOnly("Notes"),
+      notesOnly("Score"),
+      yn("MOD available to do a walkthrough with auditor?")
+    ];
+
     document.getElementById("questions").innerHTML = items.join("");
 
+    // Save audit
     document.getElementById("auditForm").addEventListener("submit", (e) => {
       e.preventDefault();
       saveAuditFromForm(e.target);
@@ -146,4 +166,3 @@
   </script>
 </body>
 </html>
-
