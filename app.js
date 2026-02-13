@@ -20,6 +20,73 @@ function clearAllAudits(){
   saveAudits([]);
 }
 
+function exportAuditsJSON(){
+  const audits = loadAudits();
+  const payload = {
+    schema: "bt_audits_export_v1",
+    exported_at: nowISO(),
+    audits
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `3158_audits_export_${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+function importAuditsJSON(jsonText){
+  const incoming = JSON.parse(jsonText);
+
+  // Accept either our wrapped format or a raw audits array
+  let incomingAudits = [];
+  if(Array.isArray(incoming)){
+    incomingAudits = incoming;
+  }else if(incoming && Array.isArray(incoming.audits)){
+    incomingAudits = incoming.audits;
+  }else{
+    throw new Error("Invalid import format");
+  }
+
+  const current = loadAudits();
+
+  // Use ID to de-dupe. If no id exists, generate one.
+  const existingIds = new Set(current.map(a => a.id).filter(Boolean));
+
+  let added = 0;
+  let skipped = 0;
+
+  for(const a of incomingAudits){
+    if(!a) continue;
+
+    if(!a.id){
+      a.id = uid();
+    }
+
+    if(existingIds.has(a.id)){
+      skipped += 1;
+      continue;
+    }
+
+    current.push(a);
+    existingIds.add(a.id);
+    added += 1;
+  }
+
+  // sort newest-first by created_at
+  current.sort((x,y) => new Date(y.created_at || 0) - new Date(x.created_at || 0));
+
+  saveAudits(current);
+
+  return { added, skipped };
+}
+
 function uid(){
   return Math.random().toString(16).slice(2) + "-" + Date.now().toString(16);
 }
