@@ -209,7 +209,7 @@ details summary::-webkit-details-marker{ display:none; }
 .ynOptions{
   display: flex;
   flex-direction: row;
-  gap: 18px;
+  gap: 10px;
   align-items: center;
   flex-wrap: nowrap;
 }
