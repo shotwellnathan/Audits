@@ -1,1 +1,202 @@
+:root{
+  --bg: #0b0b10;
+  --card: rgba(255,255,255,0.92);
+  --text: #12131a;
+  --muted: rgba(18,19,26,0.65);
+  --line: rgba(18,19,26,0.12);
+  --bar: rgba(20,20,28,0.70);
+  --btn: rgba(255,255,255,0.16);
+  --btnHover: rgba(255,255,255,0.22);
+  --blue: #2f6cff;
+  --blueHover: #2458cc;
+  --shadow: 0 22px 60px rgba(0,0,0,0.45);
+  --radius: 18px;
+}
 
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+.bg{
+  position:fixed; inset:0;
+  background:
+    radial-gradient(900px 500px at 20% 15%, rgba(120,60,255,0.35), transparent 60%),
+    radial-gradient(900px 500px at 80% 85%, rgba(255,60,200,0.25), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65));
+  z-index:-1;
+}
+
+.topbar{
+  position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 18px;
+  background:var(--bar);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.10);
+}
+.brandText{display:flex; flex-direction:column; line-height:1.15;}
+.brandText .title{color:white; font-weight:900; font-size:15px;}
+.brandText .sub{color:rgba(255,255,255,0.75); font-size:12px; margin-top:2px;}
+
+.actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+.btn{
+  appearance:none;
+  border:1px solid rgba(255,255,255,0.16);
+  background:var(--btn);
+  color:white;
+  padding:9px 12px;
+  border-radius:10px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition:120ms ease;
+}
+.btn:hover{ background:var(--btnHover); transform: translateY(-1px); }
+.btn.primary{ background:var(--blue); border-color: rgba(255,255,255,0.12); }
+.btn.primary:hover{ background:var(--blueHover); }
+.btn.danger{ background: rgba(220,38,38,0.18); border-color: rgba(220,38,38,0.25); }
+.smallBtn{ padding:7px 10px; font-size:12px; border-radius:9px; }
+
+.wrap{ max-width:1040px; margin:28px auto 40px; padding:0 18px; }
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.40);
+}
+.cardHeader{ padding:22px 24px 14px; border-bottom:1px solid var(--line); }
+.cardHeader h1{ margin:0; font-size:22px; letter-spacing:0.2px; }
+.cardHeader p{ margin:6px 0 0; color:var(--muted); font-size:13px; }
+.cardBody{ padding:22px 24px 26px; }
+
+.grid{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:14px; }
+.tile{
+  display:block;
+  text-decoration:none;
+  background: rgba(255,255,255,0.86);
+  border:1px solid rgba(18,19,26,0.10);
+  border-radius:14px;
+  padding:16px;
+  transition:140ms ease;
+  min-height:92px;
+}
+.tile:hover{ transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+.tileTitle{ font-weight:1000; font-size:16px; margin-bottom:6px; color:#111; }
+.tileSub{ color:rgba(18,19,26,0.70); font-size:13px; line-height:1.25; }
+
+.stack{ display:grid; gap:12px; }
+.panel{
+  border:1px solid rgba(18,19,26,0.10);
+  border-radius:16px;
+  background: rgba(255,255,255,0.80);
+  padding:14px;
+}
+.row{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.muted{ color:var(--muted); font-size:13px; }
+.foot{ margin-top:14px; text-align:center; color: rgba(255,255,255,0.65); font-size:12px; }
+
+.grid2{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px 14px; }
+.field{ display:flex; flex-direction:column; gap:6px; }
+label{ font-weight:900; font-size:12px; color: rgba(18,19,26,0.85); }
+label.small{ font-size:12px; opacity:0.95; }
+input, textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(18,19,26,0.16);
+  background:white;
+  font-size:14px;
+  outline:none;
+}
+textarea{ min-height:92px; resize:vertical; }
+
+.q{
+  border:1px solid rgba(18,19,26,0.10);
+  border-radius:16px;
+  background: rgba(255,255,255,0.80);
+  padding:14px;
+}
+.qHead{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.qTitle{ font-weight:1000; font-size:14px; line-height:1.25; }
+
+.yn{ display:flex; gap:8px; align-items:center; }
+.ynOpt{
+  display:inline-flex; gap:8px; align-items:center;
+  border:1px solid rgba(18,19,26,0.16);
+  background: rgba(255,255,255,0.72);
+  padding:8px 10px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:13px;
+}
+.ynOpt input{ width:auto; margin:0; }
+
+.tri{ display:grid; gap:10px; margin-top:10px; }
+.triRow{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; flex-wrap:wrap;
+  border:1px solid rgba(18,19,26,0.10);
+  background: rgba(255,255,255,0.70);
+  padding:10px 12px;
+  border-radius:14px;
+}
+.triLabel{ font-weight:900; font-size:13px; }
+
+.list{ display:grid; gap:10px; }
+.item{
+  border:1px solid rgba(18,19,26,0.10);
+  border-radius:16px;
+  background: rgba(255,255,255,0.80);
+  padding:0;
+  overflow:hidden;
+}
+.itemSummary{
+  list-style:none;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  cursor:pointer;
+}
+details summary::-webkit-details-marker{ display:none; }
+.detailsBody{ padding: 0 14px 14px; }
+.itemTitle{ font-weight:1000; }
+
+.detailRow{
+  border-top:1px solid rgba(18,19,26,0.10);
+  padding:10px 0;
+}
+.detailLabel{ font-weight:900; font-size:13px; }
+.detailVal{
+  display:inline-block;
+  margin-top:4px;
+  font-weight:1000;
+  font-size:13px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(18,19,26,0.12);
+  background: rgba(255,255,255,0.75);
+}
+.detailNotes{ margin-top:8px; white-space:pre-wrap; }
+
+@media (max-width: 900px){
+  .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 560px){
+  .wrap{ margin-top:16px; }
+  .cardHeader{ padding:18px; }
+  .cardBody{ padding:18px; }
+  .grid{ grid-template-columns: 1fr; }
+  .grid2{ grid-template-columns: 1fr; }
+}
