@@ -203,13 +203,13 @@ details summary::-webkit-details-marker{ display:none; }
 /* --- Yes/No + Notes layout (stack notes under, keep Yes/No side-by-side) --- */
 .yn{
   display: grid;
-  gap: 8px;
+  gap: 50px;
 }
 
 .ynOptions{
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 18px;
   align-items: center;
   flex-wrap: nowrap;
 }
@@ -217,7 +217,7 @@ details summary::-webkit-details-marker{ display:none; }
 .ynOptions label{
   display: inline-flex;
   align-items: center;
-  gap: 25px;
+  gap: 6px;
   cursor: pointer;
 }
 
