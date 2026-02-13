@@ -225,6 +225,7 @@ function saveAuditFromForm(form){
     audit_date: (fd.get("audit_date") || "").toString(),
     audit_time: (fd.get("audit_time") || "").toString(),
     header_notes: (fd.get("header_notes") || "").toString(),
+    device_name: getDeviceName(),
     items: []
   };
 
