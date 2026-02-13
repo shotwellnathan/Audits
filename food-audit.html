@@ -78,47 +78,64 @@
     document.getElementById("audit_date").value = d.toISOString().slice(0,10);
 
     // Build the checklist from your exact wording:
-    const checklist = [
-      yn("Customer Service (review peak time with manager, greeting, suggestive selling, thank you)"),
-      yn("Uniform Policy being followed? (logo shirt, clean, no septum rings, name tag, approved pants with no holes, logo hat, hair restraint in use with food)"),
-      yn("Coffee/Cappuccino (stocked, creamer/sugar available, clean, labels, pricing, top of equipment, lighting)"),
-      yn("Fountain/Tea/Slushie (product available & cups stocked, clean including walls & backsplash, no outdated BIBs, accurate, expiration time on tea, labels, lighting, floor mat)"),
-      yn("Roller Grill (stocked, clean, condiments available, pricing, promotional price posted, flavor flags, product properly stored and dated)"),
-      yn("Hunt Brother's Pizza (available, timed correctly, pepperoni pizza available, equipment clean, prep table rotated & dated, topping chart posted)"),
-      yn("Breakfast & Lunch Program (printer system being used properly, proper product being used, case & equipment clean, timed correctly, waste sheet used, product properly stored)"),
-      yn("Kitchen Area (3 compartment sink used correctly, test strips, clean, handwashing procedure being followed, thermometer available)"),
-      yn("Walk In/Reach In Freezer & Cooler (all product dated, clean, organized, no product on the floor, fans clean, cases stacked under 5')"),
-      yn("Temperatures within Guidelines (coolers, open air cooler, hot case, freezers, prep tables, holding wells/cabinets)"),
-      yn("Donut Case (stocked, clean, pricing, sacks available)"),
-      yn("Prairie City Cookies, Nemo Cakes, & Ooey Gooey (stocked, pricing, dated)"),
-      yn("Open Air Cooler (clean, no out of date products, red liner, EBT products, tags, promotional price posted)"),
-      yn("Sales Floor (incomm gift cards available, novelty items placed appropriately, planogram being followed, tags, rotated, out of date, tags updated, backstock)"),
-      yn("Checkout (stocked, clean, lottery stocked, tags updated, free of personal & cleaning items, MyTime and Gift Cards available)"),
-      yn("Shippers/Displays (Utilized properly, # of shippers not excessive, pricing, placement, display stacks under 5')"),
-      yn("Beverage/Beer Cooler (lighting, clean, all product priced, promotional price posted, planogram available, organized, no totes with product stored in cooler, cases stacked under 5')"),
-      yn("Overall Cleanliness (counters, cabinets, shelves, racks, ceiling vents, light fixtures, floors including under racks, baseboards, merchandise, hand sinks)"),
-      yn("Restroom (clean, toilet, trash, floor, mirror, sink, paper towels & soap available)"),
-      yn("Restroom Checklist being utilized (review the last 5 days)"),
-      yn("Backroom, Kitchen Area & Office (organized, clean, overstock items, wet floor signs, brooms & mop not stored on sales floor)"),
-      yn("Windows & Ledges (clean, current signage, cigarette sign updated)"),
-      yn("Ice, Firewood, Propane Merchandiser (good condition, clean, pricing, stocked)"),
-      yn("Parking Lot, Grassy Areas & Sidewalks (lighting ok, clean, free of debris, trash picked up, landscaping, no totes stored outside, repairs or painting needed)"),
-      yn("Pumps (clean, current signage, decals in good condition, pump #s ok, nozzles & hoses in good repair)"),
-      yn("Washer Buckets & Towels (clean, stocked, current signage, squeegee in good condition and available)"),
-      yn("Outside Trash Cans & Trash Corral (clean, trash is emptied)"),
-      yn("Store Task List being utilized? (utilized, review the last 5 days)"),
+    const items = [
+  // Trash
+  yn("Outside trash not overflowing?"),
 
-      // Three Yes/No items + a shared notes box (handled as a grouped block)
-      triOuts(),
+  // Restrooms
+  yn("Restrooms clean/Restroom checklist in use?"),
+  yn("Restrooms stocked? (toilet paper, soap, paper towels)"),
 
-      // Notes-only items at end
-      notesOnly("Review Staffing, Recruiting, & Employee Development with Store Manager."),
-      notesOnly("What is the MTD Cash Over/Short on Barb's Report? (send explanations for any excessive amounts to Belva/Cathy)"),
-      notesOnly("What is the last Cigarette Over/Short? (review the month's cigarette counts, bouncing issues, investigate excessive amounts)"),
-      notesOnly("What is the MTD Lottery Over/Short? (send explanations for any excessive amounts to Belva/Cathy)"),
-      notesOnly("Further notes:"),
-    ];
+  // Uniforms
+  yn("Company uniform policy being followed?"),
+  yn("BreakTime approved hair restraint in use?"),
 
+  // Coffee
+  yn("Sugar tower clean & stocked?"),
+  yn("All counters organized, tidy, clutter free?"),
+  yn("Creamers stocked? (Bulk and Singles)"),
+  yn("Cappuccino machine clean and all flavors available?"),
+
+  // Tea
+  yn("Tea available and timed correctly?"),
+
+  // Soda Fountain
+  yn("Nozzles clean?"),
+  yn("Back splash free from soda spillage?"),
+  yn("Mats in use?"),
+  yn("Cups and Lids stocked?"),
+
+  // Slushies
+  yn("Filled, clean, and ready to serve?"),
+
+  // Hunt Bros Pizza
+  yn("Product available and timed correctly?"),
+  yn("Pizza case is clean?"),
+  yn("Make table is rotated/dated correctly? (In & out of date must be shown on toppings)"),
+  yn("Toppings chart posted and being followed?"),
+
+  // Food Island
+  yn("Counters clean & tidy?"),
+  yn("Are all products offered available and timed correctly?"),
+
+  // Kitchen
+  yn("3 compartment sink being used correctly? (wash: filled with soap, rinse: clean and empty, sanitize: strips being used to test)"),
+  yn("BreakTime only approved food products being prepared and served?"),
+  yn("Is probe thermometer available and in use?"),
+  yn("Hand washing procedure being followed?"),
+  yn("Bibs do not exceed 30 days past use by date on case?"),
+  yn("Waste sheet in use?"),
+  yn("Product not being stored in totes in cooler/freezer?"),
+  yn("Cooler/freezer temps within guidelines?"),
+
+  // Open Air Cooler
+  yn("No out of dates/product being rotated?"),
+
+  // Conclusion
+  notesOnly("Notes"),
+  notesOnly("Score"),
+  yn("MOD available to do a walkthrough with auditor?")
+];
     document.getElementById("questions").innerHTML = checklist.join("");
 
     document.getElementById("auditForm").addEventListener("submit", (e) => {
