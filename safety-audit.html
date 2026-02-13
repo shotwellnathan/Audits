@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Safety & Security Inspection</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brandText">
+      <div class="title">Safety & Security Inspection</div>
+      <div class="sub">Taos 3158</div>
+    </div>
+
+    <nav class="actions">
+      <a class="btn" href="index.html">Home</a>
+      <a class="btn primary" href="history.html">Audit History</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <header class="cardHeader">
+        <h1>Safety & Security Inspection</h1>
+        <p>Complete Monthly</p>
+      </header>
+
+      <div class="cardBody">
+        <form id="auditForm" class="stack">
+          <input type="hidden" name="audit_type" value="Safety & Security Inspection" />
+
+          <!-- Header info -->
+          <div class="panel">
+            <div class="grid2">
+              <div class="field">
+                <label>Auditor (optional)</label>
+                <input name="auditor" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label>Audit Date</label>
+                <input type="date" name="audit_date" id="audit_date" />
+              </div>
+              <div class="field">
+                <label>Time (optional)</label>
+                <input type="time" name="audit_time" />
+              </div>
+              <div class="field">
+                <label>Notes (optional)</label>
+                <input name="header_notes" placeholder="Anything important" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Questions -->
+          <div id="questions"></div>
+
+          <!-- Submit -->
+          <div class="panel">
+            <div class="row">
+              <a class="btn" href="index.html">Cancel</a>
+              <button class="btn primary" type="submit">Submit</button>
+            </div>
+            <p class="muted" style="margin-top:10px;">
+              Saved locally on this device.
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="foot">Store 3158 • Safety & Security Inspection</div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    // Default date
+    document.getElementById("audit_date").value =
+      new Date().toISOString().slice(0,10);
+
+    // Build checklist — order matches PDF
+    const items = [
+
+      section("Exterior / Parking Lot"),
+      yn("Parking lot free of hazards and well maintained?"),
+      yn("Lighting working properly in parking lot?"),
+      yn("Trash and debris removed from exterior areas?"),
+
+      section("Doors & Windows"),
+      yn("All exterior doors secure and locking properly?"),
+      yn("Windows free of damage and secure?"),
+      yn("Emergency exits clear and accessible?"),
+
+      section("Cash Handling / Security"),
+      yn("Safe operational and used correctly?"),
+      yn("Cash handling procedures being followed?"),
+      yn("Drop safe used appropriately?"),
+
+      section("Backroom / Storage"),
+      yn("Backroom organized and free of hazards?"),
+      yn("Chemicals stored properly and labeled?"),
+      yn("No blocked electrical panels?"),
+
+      section("Emergency Equipment"),
+      yn("Fire extinguishers present, charged, and accessible?"),
+      yn("First aid kit stocked and accessible?"),
+      yn("Emergency contact numbers posted?"),
+
+      section("Employee Safety"),
+      yn("Employees following safety procedures?"),
+      yn("Slip / trip hazards addressed promptly?"),
+      yn("Proper footwear being worn?"),
+
+      section("Conclusion"),
+      yn("MOD available to walk through inspection results?")
+
+    ];
+
+    document.getElementById("questions").innerHTML = items.join("");
+
+    document.getElementById("auditForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      saveAuditFromForm(e.target);
+      window.location.href = "history.html";
+    });
+  </script>
+</body>
+</html>
