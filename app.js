@@ -34,12 +34,20 @@ function clearAllAudits(){
   saveAudits([]);
 }
 
-function exportAuditsJSON(){
-  const audits = loadAudits();
+function exportAuditsJSON(opts = {}){
+  const { auditType } = opts;
+
+  const all = loadAudits();
+  const filtered = auditType
+    ? all.filter(a => (a.audit_type || "") === auditType)
+    : all;
+
   const payload = {
-    schema: "bt_audits_export_v1",
+    schema: "bt_audits_export_v2",
     exported_at: nowISO(),
-    audits
+    exported_from_device: getDeviceName(),
+    filter: auditType ? { audit_type: auditType } : { audit_type: "ALL" },
+    audits: filtered
   };
 
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
@@ -47,7 +55,11 @@ function exportAuditsJSON(){
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = `3158_audits_export_${new Date().toISOString().slice(0,10)}.json`;
+
+  const date = new Date().toISOString().slice(0,10);
+  const suffix = auditType ? auditType.replace(/\s+/g, "_").toLowerCase() : "all";
+  a.download = `3158_audits_${suffix}_${date}.json`;
+
   document.body.appendChild(a);
   a.click();
   a.remove();
