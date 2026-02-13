@@ -136,25 +136,25 @@ function escapeHtml(s){
 
 // ---------- Form UI builders ----------
 function yn(label){
-  const id = uid();
-
   return `
     <div class="auditItem">
       <div class="auditQuestion">${escapeHtml(label)}</div>
 
-      <div class="ynRow">
-        <label>
-          <input type="radio" name="${id}" value="Yes">
-          Yes
-        </label>
+      <div class="yn">
+        <div class="ynOptions">
+          <label>
+            <input type="radio" value="Yes">
+            Yes
+          </label>
 
-        <label>
-          <input type="radio" name="${id}" value="No">
-          No
-        </label>
+          <label>
+            <input type="radio" value="No">
+            No
+          </label>
+        </div>
+
+        <textarea class="notes" placeholder="Notes"></textarea>
       </div>
-
-      <textarea class="notes" placeholder="Notes"></textarea>
     </div>
   `;
 }
