@@ -336,11 +336,12 @@ function renderHistoryGroupedByType(container){
 
 function historyItem(audit){
   const metaBits = [];
-  if(audit.audit_date) metaBits.push(audit.audit_date);
-  if(audit.audit_time) metaBits.push(audit.audit_time);
-  if(audit.auditor) metaBits.push(`Auditor: ${audit.auditor}`);
-  metaBits.push(fmtDT(audit.created_at));
-
+if(audit.audit_date) metaBits.push(audit.audit_date);
+if(audit.audit_time) metaBits.push(audit.audit_time);
+if(audit.auditor) metaBits.push(`Auditor: ${audit.auditor}`);
+if(audit.device_name) metaBits.push(`Device: ${audit.device_name}`);
+metaBits.push(fmtDT(audit.created_at));
+  
   const yes = audit.items.filter(i=>i.kind==="yn" && i.value==="Yes").length;
   const no  = audit.items.filter(i=>i.kind==="yn" && i.value==="No").length;
   const missing = audit.items.filter(i=>i.kind==="yn" && !i.value).length;
