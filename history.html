@@ -4,10 +4,48 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Audit History</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body style="font-family: -apple-system, system-ui, Arial; padding: 16px;">
-  <h2>Audit History</h2>
-  <p>This page is a placeholder. Next we’ll show all submitted audits grouped by type.</p>
-  <p><a href="index.html">← Back to Home</a></p>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brandText">
+      <div class="title">Audit History</div>
+      <div class="sub">Grouped by audit type • stored on this device</div>
+    </div>
+
+    <nav class="actions">
+      <a class="btn" href="index.html">Home</a>
+      <button class="btn danger" id="clearAllBtn" type="button">Clear All</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <header class="cardHeader">
+        <h1>Submitted Audits</h1>
+        <p>Tap an audit to expand details.</p>
+      </header>
+
+      <div class="cardBody">
+        <div id="history"></div>
+      </div>
+    </section>
+
+    <div class="foot">Local to this phone • no server</div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    renderHistoryGroupedByType(document.getElementById("history"));
+
+    document.getElementById("clearAllBtn").addEventListener("click", () => {
+      if(confirm("Delete ALL saved audits on this device?")) {
+        clearAllAudits();
+        renderHistoryGroupedByType(document.getElementById("history"));
+      }
+    });
+  </script>
 </body>
 </html>
