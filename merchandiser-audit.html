@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Merchandiser Audit</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brandText">
+      <div class="title">Merchandiser Audit</div>
+      <div class="sub">Taos 3158</div>
+    </div>
+
+    <nav class="actions">
+      <a class="btn" href="index.html">Home</a>
+      <a class="btn primary" href="history.html">Audit History</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <header class="cardHeader">
+        <h1>Merchandiser Audit</h1>
+        <p>Complete as needed</p>
+      </header>
+
+      <div class="cardBody">
+        <form id="auditForm" class="stack">
+          <input type="hidden" name="audit_type" value="Merchandiser Audit" />
+
+          <div class="panel">
+            <div class="grid2">
+              <div class="field">
+                <label>Auditor (optional)</label>
+                <input name="auditor" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label>Audit Date</label>
+                <input type="date" name="audit_date" id="audit_date" />
+              </div>
+              <div class="field">
+                <label>Time (optional)</label>
+                <input type="time" name="audit_time" />
+              </div>
+              <div class="field">
+                <label>Notes (optional)</label>
+                <input name="header_notes" placeholder="Shift / manager on duty / anything important" />
+              </div>
+            </div>
+          </div>
+
+          <div id="questions"></div>
+
+          <div class="panel">
+            <div class="row">
+              <a class="btn" href="index.html">Cancel</a>
+              <button class="btn primary" type="submit">Submit</button>
+            </div>
+            <p class="muted" style="margin-top:10px;">
+              Saved locally on this device.
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="foot">Store 3158 • Merchandiser Audit</div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    const d = new Date();
+    document.getElementById("audit_date").value = d.toISOString().slice(0,10);
+
+    const items = [
+
+      section("Dispensed Beverage Areas"),
+      yn("Do they have price stickers on all sizes of hot cups; including refill prices?"),
+      yn("Are cappuccino labels current and in good condition?"),
+      notesOnly("Need new label for"),
+      yn("Are coffee filters or other items being stored on top of the coffee equipment?"),
+      yn("Are coffee flavor labels present and in good condition?"),
+      yn("Is fountain translight or price sign displayed and in good condition?"),
+      yn("Are tea urn wraps clean and in good condition?"),
+      notesOnly("Need new label for"),
+      yn("Are Slushie labels current and in good condition? (not bottle labels)"),
+      notesOnly("Need new label for"),
+      notesOnly("Comments"),
+
+      section("Food Area"),
+      yn("Are retail prices displayed on roller grill?"),
+      yn("Is 2-for $X.XX offer advertised near the roller grill?"),
+      yn("Does each product on the roller grill have a flavor flag?"),
+      yn("Is there a price sign on the donut case?"),
+      yn("Prairie City Cookies stocked & dated (21 days)?"),
+      yn("Ooey Gooey & brownies stocked & dated (45 days)?"),
+      yn("Is prepared food signage current?"),
+      notesOnly("Comments"),
+
+      section("Open Air Cooler Case"),
+      yn("Are bottom of shelves clean and lined with red liner?"),
+      yn("CB X Sharp Cheese Stick?"),
+      yn("Kraft American Cheese Slice?"),
+      yn("Dole Fruit Cups?"),
+      yn("Yogurt?"),
+      yn("Lunchables?"),
+      yn("Are Nemo cakes stocked/dated? (30 days)"),
+      yn("Are the price tags appropriate and current for this merchandise?"),
+      yn("Is all merchandise (other than BT commissary) being offered on the authorized list?"),
+      yn("Is the promotional signage current and product available?"),
+      notesOnly("Comments"),
+
+      section("Center Store"),
+      yn("How many out of stocks are there on the sales floor? (10 max)"),
+      yn("Reese's Peanutbutter Cup KS in stock?"),
+      yn("Snickers Share Size in stock?"),
+      yn("Reese's Fast Break KS in stock?"),
+      yn("Gardettos in stock?"),
+      yn("Nerds Gummy Cluster peg bag in stock?"),
+      yn("Are the grocery planograms being followed?"),
+      yn("How many tags printed/replaced? (10 max)"),
+      yn("Is merchandise displayed on top of gondolas and in windows ledges?"),
+      yn("Is product being rotated?"),
+      yn("Is out of date product being checked/pulled?"),
+      yn("Are Novelty products/displays placed in appropriate places?"),
+      yn("Is the ice cream priced?"),
+      yn("Is the InComm gift card rack clean, stocked, and displayed in a visible location?"),
+      yn("Is backstock excessive on any products or supplies?"),
+      yn("Is backroom organized so items are accessible and easily located?"),
+      yn("Is all equipment on sales floor in working order?"),
+      notesOnly("Comments"),
+
+      section("Shippers/Displays/Checkout Area"),
+      yn("Are shippers being utilized for stocking shelves?"),
+      yn("Are there an appropriate number of shippers on display?"),
+      yn("Are all shippers displayed with current promotions/pricing?"),
+      yn("Are shippers placed in best possible position? (Including back room)"),
+      yn("Discounted/discontinued merchandise priced?"),
+      yn("Are all beer/beverage displays on the sales floor priced and shoppable?"),
+      yn("Is all merchandise at the checkout priced correctly?"),
+      yn("Are lottery in-counters stocked and properly displayed? (counter window clean)"),
+      yn("Is the checkout area free of personal items, cleaning supplies, etc.?"),
+      yn("Are there MyTime Rewards cards, MyTime handouts, Break Time gift cards available?"),
+      notesOnly("Comments"),
+
+      section("Beverage/Beer Cooler"),
+      yn("Does every item in the cooler have a price chip?"),
+      yn("Are promotion strips/cooler clings current?"),
+      yn("Is there a current planogram present in the back of the cooler?"),
+      yn("Is the planogram being followed?"),
+      yn("How many total outs in the beverage cooler? (10 max)"),
+      yn("Mountain Dew 20 oz in stock?"),
+      yn("Monster 16 oz (original) in stock?"),
+      yn("Dr Pepper 20 oz in stock?"),
+      yn("Break Time water, both sizes in stock?"),
+      yn("Red Bull 12 oz in stock?"),
+      yn("Is cooler organized and easy for someone to stock?"),
+      yn("Does the store have a beer planogram hung in the beer cooler?"),
+      yn("How many outs in the beer cooler? (10 max)"),
+      yn("Are there any cooler light bulb outs?"),
+      notesOnly("Comments"),
+
+      section("Store Cleanliness"),
+      yn("Gondola and checkout shelves clean?"),
+      yn("Ceiling vents and light lenses clean?"),
+      yn("Stand-alone racks clean?"),
+      yn("Floors clean, including under racks and displays?"),
+      yn("Merchandise in the store free of dust/dirt?"),
+      yn("Cold dispensed area/walls clean including all around/under machines?"),
+      yn("Windows and doors clean/free of smudges, including ledges inside and out?"),
+      yn("Cooler doors clean/free of smudges?"),
+      yn("Cooler shelves/glides free of mold and price strip clean and free of dust?"),
+      yn("Hand sinks clean and free of stains?"),
+      yn("Restrooms clean? (floor, sink, mirror, toilet)"),
+      yn("Restrooms stocked with soap, towels, tp?"),
+      notesOnly("Comments"),
+
+      section("Store Front"),
+      yn("Are the signs in the windows current and advertising a special offer?"),
+      yn("Does the price on the cig sign match the price being charged at the register?"),
+      yn("Is the ice merchandiser in good condition, clean on top, priced?"),
+      yn("Is there firewood available & priced?"),
+      yn("Is the propane cage in good condition and priced?"),
+      yn("Are trash can lids clean and free of debris?"),
+      yn("Are the sidewalks clean of spills, mud, etc.?"),
+      yn("Are front curbs free of debris?"),
+      notesOnly("Comments"),
+
+      section("Fuel Pumps"),
+      yn("Is there a current pump topper sign in each frame?"),
+      yn("Are pump skirt decals in good condition?"),
+      yn("Are there pump numbers on every pump and are they in good condition?"),
+      yn("Are the pumps clean?"),
+      yn("Do washer buckets have current signs in them, if applicable? (On!, Vuse, NJOY)"),
+      yn("Is there washer fluid and a good squeegee available at every pump?"),
+      notesOnly("Comments"),
+
+      section("Parking Lot Area"),
+      yn("Is air machine in working order?"),
+      yn("Is the trash picked up from the parking lot and grassy areas?"),
+      yn("Are there visible weeds on the property/in landscaping?"),
+      yn("Are totes being stored outside out of customer view?"),
+      notesOnly("Comments"),
+
+      section("Summary"),
+      yn("Does the store have returns/write-offs that need to be processed?"),
+      notesOnly("Overall Comments")
+    ];
+
+    document.getElementById("questions").innerHTML = items.join("");
+
+    document.getElementById("auditForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      saveAuditFromForm(e.target);
+      window.location.href = "history.html";
+    });
+  </script>
+</body>
+</html>
