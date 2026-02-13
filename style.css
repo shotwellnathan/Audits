@@ -200,19 +200,29 @@ details summary::-webkit-details-marker{ display:none; }
   margin-bottom: 8px;
 }
 
-.ynOptions {
-  display: flex;
-  gap: 18px;
-  align-items: center;
+/* --- Yes/No + Notes layout (stack notes under, keep Yes/No side-by-side) --- */
+.yn{
+  display: grid;
+  gap: 8px;
 }
 
-.ynOptions label {
+.ynOptions{
   display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.ynOptions label{
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   cursor: pointer;
 }
 
 .notes{
-  margin-top: 6px;
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
 }
