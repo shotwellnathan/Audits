@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Food Audit</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brandText">
+      <div class="title">Food Audit</div>
+      <div class="sub">Taos 3158</div>
+    </div>
+
+    <nav class="actions">
+      <a class="btn" href="index.html">Home</a>
+      <a class="btn primary" href="history.html">Audit History</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <header class="cardHeader">
+        <h1>Food Audit</h1>
+        <p>Complete Weekly</p>
+      </header>
+
+      <div class="cardBody">
+        <form id="auditForm" class="stack">
+          <input type="hidden" name="audit_type" value="Food Audit" />
+
+          <div class="panel">
+            <div class="grid2">
+              <div class="field">
+                <label>Auditor (optional)</label>
+                <input name="auditor" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label>Audit Date</label>
+                <input type="date" name="audit_date" id="audit_date" />
+              </div>
+              <div class="field">
+                <label>Time (optional)</label>
+                <input type="time" name="audit_time" />
+              </div>
+              <div class="field">
+                <label>Notes (optional)</label>
+                <input name="header_notes" placeholder="Shift / manager on duty / anything important" />
+              </div>
+            </div>
+          </div>
+
+          <div id="questions"></div>
+
+          <div class="panel">
+            <div class="row">
+              <a class="btn" href="index.html">Cancel</a>
+              <button class="btn primary" type="submit">Submit</button>
+            </div>
+            <p class="muted" style="margin-top:10px;">
+              Saved locally on this device. Email to store management when finished.
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="foot">Store 3158 • Food Audit</div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    // set today's date default
+    const d = new Date();
+    document.getElementById("audit_date").value = d.toISOString().slice(0,10);
+
+    // Build the checklist from your exact wording:
+    const checklist = [
+      yn("Customer Service (review peak time with manager, greeting, suggestive selling, thank you)"),
+      yn("Uniform Policy being followed? (logo shirt, clean, no septum rings, name tag, approved pants with no holes, logo hat, hair restraint in use with food)"),
+      yn("Coffee/Cappuccino (stocked, creamer/sugar available, clean, labels, pricing, top of equipment, lighting)"),
+      yn("Fountain/Tea/Slushie (product available & cups stocked, clean including walls & backsplash, no outdated BIBs, accurate, expiration time on tea, labels, lighting, floor mat)"),
+      yn("Roller Grill (stocked, clean, condiments available, pricing, promotional price posted, flavor flags, product properly stored and dated)"),
+      yn("Hunt Brother's Pizza (available, timed correctly, pepperoni pizza available, equipment clean, prep table rotated & dated, topping chart posted)"),
+      yn("Breakfast & Lunch Program (printer system being used properly, proper product being used, case & equipment clean, timed correctly, waste sheet used, product properly stored)"),
+      yn("Kitchen Area (3 compartment sink used correctly, test strips, clean, handwashing procedure being followed, thermometer available)"),
+      yn("Walk In/Reach In Freezer & Cooler (all product dated, clean, organized, no product on the floor, fans clean, cases stacked under 5')"),
+      yn("Temperatures within Guidelines (coolers, open air cooler, hot case, freezers, prep tables, holding wells/cabinets)"),
+      yn("Donut Case (stocked, clean, pricing, sacks available)"),
+      yn("Prairie City Cookies, Nemo Cakes, & Ooey Gooey (stocked, pricing, dated)"),
+      yn("Open Air Cooler (clean, no out of date products, red liner, EBT products, tags, promotional price posted)"),
+      yn("Sales Floor (incomm gift cards available, novelty items placed appropriately, planogram being followed, tags, rotated, out of date, tags updated, backstock)"),
+      yn("Checkout (stocked, clean, lottery stocked, tags updated, free of personal & cleaning items, MyTime and Gift Cards available)"),
+      yn("Shippers/Displays (Utilized properly, # of shippers not excessive, pricing, placement, display stacks under 5')"),
+      yn("Beverage/Beer Cooler (lighting, clean, all product priced, promotional price posted, planogram available, organized, no totes with product stored in cooler, cases stacked under 5')"),
+      yn("Overall Cleanliness (counters, cabinets, shelves, racks, ceiling vents, light fixtures, floors including under racks, baseboards, merchandise, hand sinks)"),
+      yn("Restroom (clean, toilet, trash, floor, mirror, sink, paper towels & soap available)"),
+      yn("Restroom Checklist being utilized (review the last 5 days)"),
+      yn("Backroom, Kitchen Area & Office (organized, clean, overstock items, wet floor signs, brooms & mop not stored on sales floor)"),
+      yn("Windows & Ledges (clean, current signage, cigarette sign updated)"),
+      yn("Ice, Firewood, Propane Merchandiser (good condition, clean, pricing, stocked)"),
+      yn("Parking Lot, Grassy Areas & Sidewalks (lighting ok, clean, free of debris, trash picked up, landscaping, no totes stored outside, repairs or painting needed)"),
+      yn("Pumps (clean, current signage, decals in good condition, pump #s ok, nozzles & hoses in good repair)"),
+      yn("Washer Buckets & Towels (clean, stocked, current signage, squeegee in good condition and available)"),
+      yn("Outside Trash Cans & Trash Corral (clean, trash is emptied)"),
+      yn("Store Task List being utilized? (utilized, review the last 5 days)"),
+
+      // Three Yes/No items + a shared notes box (handled as a grouped block)
+      triOuts(),
+
+      // Notes-only items at end
+      notesOnly("Review Staffing, Recruiting, & Employee Development with Store Manager."),
+      notesOnly("What is the MTD Cash Over/Short on Barb's Report? (send explanations for any excessive amounts to Belva/Cathy)"),
+      notesOnly("What is the last Cigarette Over/Short? (review the month's cigarette counts, bouncing issues, investigate excessive amounts)"),
+      notesOnly("What is the MTD Lottery Over/Short? (send explanations for any excessive amounts to Belva/Cathy)"),
+      notesOnly("Further notes:"),
+    ];
+
+    document.getElementById("questions").innerHTML = checklist.join("");
+
+    document.getElementById("auditForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      saveAuditFromForm(e.target);
+      window.location.href = "history.html";
+    });
+  </script>
+</body>
+</html>
+
