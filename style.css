@@ -192,6 +192,12 @@ details summary::-webkit-details-marker{ display:none; }
 
 /* --- Audit Yes / No layout --- */
 
+input[type="radio"],
+input[type="checkbox"]{
+  width: auto;
+  padding: 0;
+}
+
 .auditItem{
   margin-bottom: 22px;
 }
