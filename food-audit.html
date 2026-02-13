@@ -79,46 +79,46 @@
 
     // Build the checklist from your exact wording:
     const items = [
-  // Trash
+  section("Trash"),
   yn("Outside trash not overflowing?"),
 
-  // Restrooms
+  section("Restrooms"),
   yn("Restrooms clean/Restroom checklist in use?"),
   yn("Restrooms stocked? (toilet paper, soap, paper towels)"),
 
-  // Uniforms
+  section("Uniforms"),
   yn("Company uniform policy being followed?"),
   yn("BreakTime approved hair restraint in use?"),
 
-  // Coffee
+  section("Coffee"),
   yn("Sugar tower clean & stocked?"),
   yn("All counters organized, tidy, clutter free?"),
   yn("Creamers stocked? (Bulk and Singles)"),
   yn("Cappuccino machine clean and all flavors available?"),
 
-  // Tea
+  section("Tea"),
   yn("Tea available and timed correctly?"),
 
-  // Soda Fountain
+  section("Soda Fountain"),
   yn("Nozzles clean?"),
   yn("Back splash free from soda spillage?"),
   yn("Mats in use?"),
   yn("Cups and Lids stocked?"),
 
-  // Slushies
+  section("Slushies"),
   yn("Filled, clean, and ready to serve?"),
 
-  // Hunt Bros Pizza
+  section("Hunt Bros Pizza"),
   yn("Product available and timed correctly?"),
   yn("Pizza case is clean?"),
   yn("Make table is rotated/dated correctly? (In & out of date must be shown on toppings)"),
   yn("Toppings chart posted and being followed?"),
 
-  // Food Island
+  section("Food Island"),
   yn("Counters clean & tidy?"),
   yn("Are all products offered available and timed correctly?"),
 
-  // Kitchen
+  section("Kitchen"),
   yn("3 compartment sink being used correctly? (wash: filled with soap, rinse: clean and empty, sanitize: strips being used to test)"),
   yn("BreakTime only approved food products being prepared and served?"),
   yn("Is probe thermometer available and in use?"),
@@ -128,15 +128,15 @@
   yn("Product not being stored in totes in cooler/freezer?"),
   yn("Cooler/freezer temps within guidelines?"),
 
-  // Open Air Cooler
+  section("Open Air Cooler"),
   yn("No out of dates/product being rotated?"),
 
-  // Conclusion
+  section("Conclusion"),
   notesOnly("Notes"),
   notesOnly("Score"),
   yn("MOD available to do a walkthrough with auditor?")
 ];
-    document.getElementById("questions").innerHTML = checklist.join("");
+    document.getElementById("questions").innerHTML = items.join("");
 
     document.getElementById("auditForm").addEventListener("submit", (e) => {
       e.preventDefault();
