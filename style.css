@@ -200,3 +200,36 @@ details summary::-webkit-details-marker{ display:none; }
   .grid{ grid-template-columns: 1fr; }
   .grid2{ grid-template-columns: 1fr; }
 }
+
+/* --- Audit Yes / No layout fix --- */
+
+.auditItem{
+  margin-bottom: 22px;
+}
+
+.auditQuestion{
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.yn{
+  display: flex;
+  flex-direction: column; /* FORCE vertical layout */
+  gap: 8px;
+}
+
+.ynRow{
+  display: flex;
+  gap: 28px;
+}
+
+.ynRow label{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.notes{
+  margin-top: 8px;
+}
