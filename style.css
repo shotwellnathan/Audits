@@ -200,6 +200,28 @@ details summary::-webkit-details-marker{ display:none; }
   margin-bottom: 8px;
 }
 
+/* --- Force Yes/No to render cleanly side-by-side --- */
+.auditItem .ynOptions{
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: center;
+}
+
+.auditItem .ynOptions label{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  line-height: 1.2;
+  flex: 0 0 auto;        /* do NOT let labels shrink */
+}
+
+.auditItem .ynOptions input[type="radio"]{
+  margin: 0;             /* prevent weird default margins */
+  flex: 0 0 auto;
+}
+
 /* --- Yes/No + Notes layout (stack notes under, keep Yes/No side-by-side) --- */
 .yn{
   display: grid;
