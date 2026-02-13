@@ -135,6 +135,10 @@ function escapeHtml(s){
 }
 
 // ---------- Form UI builders ----------
+function category(title){
+  return `<div class="catTitle">${escapeHtml(title)}</div>`;
+}
+
 function yn(label){
   return `
     <div class="auditItem">
