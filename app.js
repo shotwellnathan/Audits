@@ -135,6 +135,20 @@ function escapeHtml(s){
 }
 
 // ---------- Form UI builders ----------
+function section(title){
+  return `
+    <div class="panel" style="margin:18px 0 6px;">
+      <div class="qTitle" style="
+        font-size:16px;
+        font-weight:1000;
+        color:#2f6cff;
+      ">
+        ${escapeHtml(title)}
+      </div>
+    </div>
+  `;
+}
+
 function category(title){
   return `<div class="catTitle">${escapeHtml(title)}</div>`;
 }
