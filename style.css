@@ -67,6 +67,15 @@ body{
 
 .wrap{ max-width:1040px; margin:28px auto 40px; padding:0 18px; }
 
+.catTitle{
+  margin: 18px 0 10px;
+  font-weight: 1000;
+  font-size: 18px;
+  color: #1f6feb;            /* nice blue */
+  padding-top: 8px;
+  border-top: 1px solid rgba(18,19,26,0.12);
+}
+
 .card{
   background:var(--card);
   border-radius:var(--radius);
