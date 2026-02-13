@@ -25,19 +25,35 @@
     <section class="card">
       <header class="cardHeader">
         <h1>Transfer Audits</h1>
-        <p>Export a file to AirDrop or save to iCloud. Import merges without duplicates.</p>
+        <p>Export a file to AirDrop/iCloud. Import merges without duplicates.</p>
       </header>
 
       <div class="cardBody stack">
+
         <div class="panel">
+          <div class="itemTitle">Device Name</div>
+          <div class="muted" style="margin-top:6px;">
+            This helps you see who submitted each audit (e.g., “Nathan iPhone”, “Assistant iPhone”).
+          </div>
+          <div style="height:10px;"></div>
           <div class="row">
-            <div>
-              <div class="itemTitle">Export</div>
-              <div class="muted" style="margin-top:6px;">
-                Downloads a JSON backup of all audits saved on <b>this</b> device.
-              </div>
-            </div>
-            <button class="btn primary" id="exportBtn" type="button">Export JSON</button>
+            <input id="deviceName" placeholder="Enter device name…" />
+            <button class="btn" id="saveDeviceBtn" type="button">Save</button>
+          </div>
+          <div id="deviceStatus" class="muted" style="margin-top:10px;"></div>
+        </div>
+
+        <div class="panel">
+          <div class="itemTitle">Export</div>
+          <div class="muted" style="margin-top:6px;">
+            Downloads a JSON backup of audits saved on <b>this</b> device.
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="row">
+            <button class="btn primary" id="exportAllBtn" type="button">Export All Audits</button>
+            <button class="btn" id="exportFastBtn" type="button">Export Fast Fields Only</button>
           </div>
         </div>
 
@@ -71,24 +87,40 @@
 
   <script src="app.js"></script>
   <script>
-    document.getElementById("exportBtn").addEventListener("click", exportAuditsJSON);
+    // Prefill device name if saved
+    const dn = getDeviceName();
+    const deviceInput = document.getElementById("deviceName");
+    const status = document.getElementById("deviceStatus");
+    if(dn) {
+      deviceInput.value = dn;
+      status.textContent = `Current device name: ${dn}`;
+    }
+
+    document.getElementById("saveDeviceBtn").addEventListener("click", () => {
+      const name = (deviceInput.value || "").trim();
+      setDeviceName(name);
+      status.textContent = name ? `Saved device name: ${name}` : "Device name cleared.";
+    });
+
+    document.getElementById("exportAllBtn").addEventListener("click", () => exportAuditsJSON());
+    document.getElementById("exportFastBtn").addEventListener("click", () => exportAuditsJSON({ auditType: "Fast Fields" }));
 
     document.getElementById("importBtn").addEventListener("click", async () => {
       const fileInput = document.getElementById("importFile");
-      const status = document.getElementById("importStatus");
-      status.textContent = "";
+      const importStatus = document.getElementById("importStatus");
+      importStatus.textContent = "";
 
       if(!fileInput.files || !fileInput.files[0]){
-        status.textContent = "Choose a JSON file first.";
+        importStatus.textContent = "Choose a JSON file first.";
         return;
       }
 
       try{
         const text = await fileInput.files[0].text();
         const result = importAuditsJSON(text);
-        status.textContent = `Imported: ${result.added} • Skipped (duplicates): ${result.skipped}`;
+        importStatus.textContent = `Imported: ${result.added} • Skipped (duplicates): ${result.skipped}`;
       }catch(e){
-        status.textContent = "Import failed: file was not valid JSON.";
+        importStatus.textContent = "Import failed: file was not valid JSON.";
       }
     });
   </script>
