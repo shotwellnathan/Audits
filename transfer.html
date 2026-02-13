@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Export / Import</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brandText">
+      <div class="title">Export / Import</div>
+      <div class="sub">Share audits between devices privately</div>
+    </div>
+
+    <nav class="actions">
+      <a class="btn" href="index.html">Home</a>
+      <a class="btn" href="history.html">Audit History</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <header class="cardHeader">
+        <h1>Transfer Audits</h1>
+        <p>Export a file to AirDrop or save to iCloud. Import merges without duplicates.</p>
+      </header>
+
+      <div class="cardBody stack">
+        <div class="panel">
+          <div class="row">
+            <div>
+              <div class="itemTitle">Export</div>
+              <div class="muted" style="margin-top:6px;">
+                Downloads a JSON backup of all audits saved on <b>this</b> device.
+              </div>
+            </div>
+            <button class="btn primary" id="exportBtn" type="button">Export JSON</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="itemTitle">Import</div>
+          <div class="muted" style="margin-top:6px;">
+            Choose an exported JSON file. We’ll merge audits into this device.
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="row">
+            <input id="importFile" type="file" accept="application/json" />
+            <button class="btn" id="importBtn" type="button">Import</button>
+          </div>
+
+          <div id="importStatus" class="muted" style="margin-top:10px;"></div>
+        </div>
+
+        <div class="panel">
+          <div class="itemTitle">Tip</div>
+          <div class="muted" style="margin-top:6px;">
+            iPhone: after exporting, tap the download → Share → AirDrop to your assistant (or save in iCloud Drive).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">Local files only • no server</div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    document.getElementById("exportBtn").addEventListener("click", exportAuditsJSON);
+
+    document.getElementById("importBtn").addEventListener("click", async () => {
+      const fileInput = document.getElementById("importFile");
+      const status = document.getElementById("importStatus");
+      status.textContent = "";
+
+      if(!fileInput.files || !fileInput.files[0]){
+        status.textContent = "Choose a JSON file first.";
+        return;
+      }
+
+      try{
+        const text = await fileInput.files[0].text();
+        const result = importAuditsJSON(text);
+        status.textContent = `Imported: ${result.added} • Skipped (duplicates): ${result.skipped}`;
+      }catch(e){
+        status.textContent = "Import failed: file was not valid JSON.";
+      }
+    });
+  </script>
+</body>
+</html>
