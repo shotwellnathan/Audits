@@ -214,7 +214,7 @@ details summary::-webkit-details-marker{ display:none; }
 
 .yn{
   display: flex;
-  flex-direction: column; /* FORCE vertical layout */
+  flex-direction: row; /* FORCE vertical layout */
   gap: 8px;
 }
 
