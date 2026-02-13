@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Safety & Security Inspection</title>
+  <title>Safety Audit</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,7 +11,7 @@
 
   <header class="topbar">
     <div class="brandText">
-      <div class="title">Safety & Security Inspection</div>
+      <div class="title">Safety Audit</div>
       <div class="sub">Taos 3158</div>
     </div>
 
@@ -24,15 +24,14 @@
   <main class="wrap">
     <section class="card">
       <header class="cardHeader">
-        <h1>Safety & Security Inspection</h1>
-        <p>Complete Monthly</p>
+        <h1>Safety Audit</h1>
+        <p>Yes/No + Comments • nothing pre-selected</p>
       </header>
 
       <div class="cardBody">
         <form id="auditForm" class="stack">
-          <input type="hidden" name="audit_type" value="Safety & Security Inspection" />
+          <input type="hidden" name="audit_type" value="Safety Audit" />
 
-          <!-- Header info -->
           <div class="panel">
             <div class="grid2">
               <div class="field">
@@ -49,15 +48,13 @@
               </div>
               <div class="field">
                 <label>Notes (optional)</label>
-                <input name="header_notes" placeholder="Anything important" />
+                <input name="header_notes" placeholder="Shift / manager on duty / anything important" />
               </div>
             </div>
           </div>
 
-          <!-- Questions -->
           <div id="questions"></div>
 
-          <!-- Submit -->
           <div class="panel">
             <div class="row">
               <a class="btn" href="index.html">Cancel</a>
@@ -71,51 +68,76 @@
       </div>
     </section>
 
-    <div class="foot">Store 3158 • Safety & Security Inspection</div>
+    <div class="foot">Store 3158 • Safety Audit</div>
   </main>
 
   <script src="app.js"></script>
   <script>
-    // Default date
-    document.getElementById("audit_date").value =
-      new Date().toISOString().slice(0,10);
+    // default date = today
+    const d = new Date();
+    document.getElementById("audit_date").value = d.toISOString().slice(0,10);
 
-    // Build checklist — order matches PDF
+    // EXACT sections + questions from your PDF (top store info ignored)
     const items = [
-
-      section("Building Exterior / Parking Lot"),
+      section("Building Exterior & Parking Lot"),
       yn("Parking lot, car stops and sidewalks in good repair, no significant cracks, no uneven sections. Curbs, u bumpers, and lot stripes painted, not faded or discolored."),
-      yn("Lighting working properly in parking lot?"),
-      yn("Trash and debris removed from exterior areas?"),
+      yn("Snow/Ice removal service plan in place, equipment/supplies available, snow/ice removed from sidewalks/parking area"),
+      yn("Exterior/Interior Fire Extinguishers accessible, mounted & charged; serviced & tagged annually"),
+      yn("Water and air hoses coiled and stored on rack or hook when not in use"),
+      yn("Outside ladders locked-not accessible to the public"),
+      yn("All exterior lighting in good working condition"),
 
-      section("Doors & Windows"),
-      yn("All exterior doors secure and locking properly?"),
-      yn("Windows free of damage and secure?"),
-      yn("Emergency exits clear and accessible?"),
+      section("Building Interior"),
+      yn("Restroom clean, floors dry, cleaning log in use"),
+      yn("All interior lighting in good working condition"),
+      yn("Exit doors have clear access"),
 
-      section("Cash Handling / Security"),
-      yn("Safe operational and used correctly?"),
-      yn("Cash handling procedures being followed?"),
-      yn("Drop safe used appropriately?"),
+      section("Sales Floor/Register Area"),
+      yn("SDS manual available and easily accessible for all employees"),
+      yn("Floor mats placed at entrances in good condition, dry\\clean, not curling"),
+      yn("Floor mats placed behind registers in good condition, not curling"),
+      yn("Entire floor clean, dry, free of slip/trip/fall hazards, wet floor signs being used properly(not being left out continuously)"),
+      yn("Aisles are kept clear of displays, no electrical cords to trip over"),
+      yn("Floor displays at proper height (tripping hazard), no sharp edges"),
+      yn("Self retracting box cutters are available and being used properly"),
 
-      section("Backroom / Storage"),
-      yn("Backroom organized and free of hazards?"),
-      yn("Chemicals stored properly and labeled?"),
-      yn("No blocked electrical panels?"),
+      section("Storage Area/Back Room"),
+      yn("Hand truck available and in good working condition"),
+      yn("Entire floor clean, dry, free of slip/trip/fall hazards, wet floor signs being used properly"),
+      yn("Cases stacked below 5' maximum"),
+      yn("Mops, brooms, dustpans all being stored properly"),
+      yn("All compressed gas cylinders secured"),
+      yn("Items on shelving/racks stored correctly - heavy items on bottom, light items on top"),
+      yn("Shelving/Racks stable and in good condition"),
 
-      section("Emergency Equipment"),
-      yn("Fire extinguishers present, charged, and accessible?"),
-      yn("First aid kit stocked and accessible?"),
-      yn("Emergency contact numbers posted?"),
+      section("Freezer/Cooler"),
+      yn("Entire floor clean, dry, free of slip/trip/fall hazards. Product not being stored on freezer floors."),
+      yn("Freezer/Cooler door in good working condition, door release working, seals are in good condition, no condensation"),
+      yn("Shelving/Racks stable and in good condition"),
+      yn("Step stool and/or step ladder available and in good working condition"),
+      yn("Cases stacked below 5' maximum"),
 
-      section("Employee Safety"),
-      yn("Employees following safety procedures?"),
-      yn("Slip / trip hazards addressed promptly?"),
-      yn("Proper footwear being worn?"),
+      section("Office"),
+      yn("First Aid Kit/Supplies available"),
+      yn("Staff is aware of incident reporting procedures-both employee and customer incidents"),
+      yn("Slip-Fall Reporting Procedure posted in office area"),
+      yn("Worker's Compensation posted in office area"),
+      yn("Summary of Work-Related Injuries and Illnesses posted in office area"),
+      yn("Security system & cameras in good working condition"),
 
-      section("Conclusion"),
-      yn("MOD available to walk through inspection results?")
+      section("Food Prep Area"),
+      yn("Entire floor clean, dry, free of slip/trip/fall hazards, wet floor signs being used properly"),
+      yn("Knives stored using magnetic rack, or in container with handle up"),
+      yn("Personal protective gear available and in use (hot pads, neoprene gloves, etc.)"),
 
+      section("Electrical Equipment and Fixtures"),
+      yn("Electrical panel and switchbox doors in place and closed"),
+      yn("Access to electrical panels, switchboxes, equipment kept clear (at least 36\")"),
+      yn("Outlets exposed to water equipped with GFCI's"),
+
+      section("Score"),
+      notesOnly("Score"),
+      notesOnly("Manager Signature")
     ];
 
     document.getElementById("questions").innerHTML = items.join("");
