@@ -78,20 +78,16 @@
 
     const items = [
 
-      section("Dispensed Beverage Areas"),
+      section("* Dispensed Beverage Areas"),
       yn("Do they have price stickers on all sizes of hot cups; including refill prices?"),
       yn("Are cappuccino labels current and in good condition?"),
-      notesOnly("Need new label for"),
       yn("Are coffee filters or other items being stored on top of the coffee equipment?"),
       yn("Are coffee flavor labels present and in good condition?"),
       yn("Is fountain translight or price sign displayed and in good condition?"),
       yn("Are tea urn wraps clean and in good condition?"),
-      notesOnly("Need new label for"),
       yn("Are Slushie labels current and in good condition? (not bottle labels)"),
-      notesOnly("Need new label for"),
-      notesOnly("Comments"),
 
-      section("Food Area"),
+      section("* Food Area"),
       yn("Are retail prices displayed on roller grill?"),
       yn("Is 2-for $X.XX offer advertised near the roller grill?"),
       yn("Does each product on the roller grill have a flavor flag?"),
@@ -99,9 +95,8 @@
       yn("Prairie City Cookies stocked & dated (21 days)?"),
       yn("Ooey Gooey & brownies stocked & dated (45 days)?"),
       yn("Is prepared food signage current?"),
-      notesOnly("Comments"),
 
-      section("Open Air Cooler Case"),
+      section("* Open Air Cooler Case"),
       yn("Are bottom of shelves clean and lined with red liner?"),
       yn("CB X Sharp Cheese Stick?"),
       yn("Kraft American Cheese Slice?"),
@@ -112,9 +107,8 @@
       yn("Are the price tags appropriate and current for this merchandise?"),
       yn("Is all merchandise (other than BT commissary) being offered on the authorized list?"),
       yn("Is the promotional signage current and product available?"),
-      notesOnly("Comments"),
 
-      section("Center Store"),
+      section("* Center Store"),
       yn("How many out of stocks are there on the sales floor? (10 max)"),
       yn("Reese's Peanutbutter Cup KS in stock?"),
       yn("Snickers Share Size in stock?"),
@@ -132,9 +126,8 @@
       yn("Is backstock excessive on any products or supplies?"),
       yn("Is backroom organized so items are accessible and easily located?"),
       yn("Is all equipment on sales floor in working order?"),
-      notesOnly("Comments"),
 
-      section("Shippers/Displays/Checkout Area"),
+      section("* Shippers/Displays/Checkout Area"),
       yn("Are shippers being utilized for stocking shelves?"),
       yn("Are there an appropriate number of shippers on display?"),
       yn("Are all shippers displayed with current promotions/pricing?"),
@@ -145,9 +138,8 @@
       yn("Are lottery in-counters stocked and properly displayed? (counter window clean)"),
       yn("Is the checkout area free of personal items, cleaning supplies, etc.?"),
       yn("Are there MyTime Rewards cards, MyTime handouts, Break Time gift cards available?"),
-      notesOnly("Comments"),
 
-      section("Beverage/Beer Cooler"),
+      section("* Beverage/Beer Cooler"),
       yn("Does every item in the cooler have a price chip?"),
       yn("Are promotion strips/cooler clings current?"),
       yn("Is there a current planogram present in the back of the cooler?"),
@@ -162,9 +154,8 @@
       yn("Does the store have a beer planogram hung in the beer cooler?"),
       yn("How many outs in the beer cooler? (10 max)"),
       yn("Are there any cooler light bulb outs?"),
-      notesOnly("Comments"),
 
-      section("Store Cleanliness"),
+      section("* Store Cleanliness"),
       yn("Gondola and checkout shelves clean?"),
       yn("Ceiling vents and light lenses clean?"),
       yn("Stand-alone racks clean?"),
@@ -177,9 +168,9 @@
       yn("Hand sinks clean and free of stains?"),
       yn("Restrooms clean? (floor, sink, mirror, toilet)"),
       yn("Restrooms stocked with soap, towels, tp?"),
-      notesOnly("Comments"),
 
-      section("Store Front"),
+
+      section("* Store Front"),
       yn("Are the signs in the windows current and advertising a special offer?"),
       yn("Does the price on the cig sign match the price being charged at the register?"),
       yn("Is the ice merchandiser in good condition, clean on top, priced?"),
@@ -188,27 +179,23 @@
       yn("Are trash can lids clean and free of debris?"),
       yn("Are the sidewalks clean of spills, mud, etc.?"),
       yn("Are front curbs free of debris?"),
-      notesOnly("Comments"),
 
-      section("Fuel Pumps"),
+      section("* Fuel Pumps"),
       yn("Is there a current pump topper sign in each frame?"),
       yn("Are pump skirt decals in good condition?"),
       yn("Are there pump numbers on every pump and are they in good condition?"),
       yn("Are the pumps clean?"),
       yn("Do washer buckets have current signs in them, if applicable? (On!, Vuse, NJOY)"),
       yn("Is there washer fluid and a good squeegee available at every pump?"),
-      notesOnly("Comments"),
 
-      section("Parking Lot Area"),
+      section("* Parking Lot Area"),
       yn("Is air machine in working order?"),
       yn("Is the trash picked up from the parking lot and grassy areas?"),
       yn("Are there visible weeds on the property/in landscaping?"),
       yn("Are totes being stored outside out of customer view?"),
-      notesOnly("Comments"),
 
-      section("Summary"),
+      section("* Summary"),
       yn("Does the store have returns/write-offs that need to be processed?"),
-      notesOnly("Overall Comments")
     ];
 
     document.getElementById("questions").innerHTML = items.join("");
