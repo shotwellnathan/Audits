@@ -140,6 +140,7 @@ function category(title){
 }
 
 function yn(label){
+  const id = uid();
   return `
     <div class="auditItem">
       <div class="auditQuestion">${escapeHtml(label)}</div>
@@ -147,17 +148,20 @@ function yn(label){
       <div class="yn">
         <div class="ynOptions">
           <label>
-            <input type="radio" value="Yes">
+            <input type="radio" name="${id}_yn" value="Yes">
             Yes
           </label>
 
           <label>
-            <input type="radio" value="No">
+            <input type="radio" name="${id}_yn" value="No">
             No
           </label>
         </div>
 
-        <textarea class="notes" placeholder="Notes"></textarea>
+        <textarea class="notes" name="${id}_notes" placeholder="Comments"></textarea>
+
+        <input type="hidden" name="${id}_label" value="${escapeHtml(label)}">
+        <input type="hidden" name="${id}_type" value="yn">
       </div>
     </div>
   `;
