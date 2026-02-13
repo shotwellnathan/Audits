@@ -229,7 +229,7 @@ input[type="checkbox"]{
 .auditItem .ynOptions{
   display: flex;
   flex-direction: row;
-  gap: 18px;
+  gap: 10px;
   align-items: center;
   margin-bottom: 10px; /* ← THIS adds space above Notes */
 }
@@ -241,7 +241,7 @@ input[type="checkbox"]{
   white-space: nowrap;
   line-height: 1.2;
   flex: 0 0 auto;        /* do NOT let labels shrink */
-  margin-bottom: 20px; /* ← THIS adds space above Notes */
+  margin-bottom: 10px; /* ← THIS adds space above Notes */
 }
 
 .auditItem .ynOptions input[type="radio"]{
