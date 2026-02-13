@@ -217,7 +217,7 @@ details summary::-webkit-details-marker{ display:none; }
 .ynOptions label{
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 25px;
   cursor: pointer;
 }
 
