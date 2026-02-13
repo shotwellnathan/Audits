@@ -1,1 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SSI Audit</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg"></div>
 
+  <header class="topbar">
+    <div class="brandText">
+      <div class="title">SSI Audit</div>
+      <div class="sub">Taos 3158</div>
+    </div>
+
+    <nav class="actions">
+      <a class="btn" href="index.html">Home</a>
+      <a class="btn primary" href="history.html">Audit History</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <header class="cardHeader">
+        <h1>SSI Audit</h1>
+        <p>Yes / No / N/A • nothing pre-selected</p>
+      </header>
+
+      <div class="cardBody">
+        <form id="auditForm" class="stack">
+          <input type="hidden" name="audit_type" value="SSI" />
+
+          <div class="panel">
+            <div class="grid2">
+              <div class="field">
+                <label>Inspected by (optional)</label>
+                <input name="auditor" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label>Date</label>
+                <input type="date" name="audit_date" id="audit_date" />
+              </div>
+              <div class="field">
+                <label>Time (optional)</label>
+                <input type="time" name="audit_time" />
+              </div>
+              <div class="field">
+                <label>Notes (optional)</label>
+                <input name="header_notes" placeholder="Anything important" />
+              </div>
+            </div>
+          </div>
+
+          <div id="questions"></div>
+
+          <div class="panel">
+            <div class="row">
+              <a class="btn" href="index.html">Cancel</a>
+              <button class="btn primary" type="submit">Submit</button>
+            </div>
+            <p class="muted" style="margin-top:10px;">
+              Saved locally on this device.
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="foot">Store 3158 • SSI</div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    // set today's date default
+    const d = new Date();
+    document.getElementById("audit_date").value = d.toISOString().slice(0,10);
+
+    // SSI checklist (from your PDF)
+    const items = [
+      section("Building Exterior & Parking Lot"),
+      yna("Oil/Grease spots being treated"),
+      yna("Curb, car stops, ramp edges, u bumpers, lot stripes painted and in good repair"),
+      yna("Parking lot & sidewalks in good repair, no significant cracks, no uneven sections, free of slip/trip/fall hazards"),
+      yna("Snow/Ice removal service plan in place, equipment/supplies available, snow/ice removed from sidewalks/parking area"),
+      yna("Exterior/Interior Fire Extinguishers accessible, mounted & charged; serviced & tagged annually"),
+      yna("Reader Board in good repair including lighting"),
+      yna("All propane tanks secured in locked rack and adequately protected from vehicles"),
+      yna("Water and air hoses coiled and stored on rack or hook when not in use"),
+      yna("No evidence of loitering, graffiti, alcohol consumption, etc on property"),
+      yna("Building in good condition including siding, fascia, window ledges/frames, gutters, downspouts, and splash blocks"),
+      yna("All exterior lighting & neon are in good working condition"),
+
+      section("Pumps & Islands"),
+      yna("Fuel storage tanks identified (color coded as required), fuel tank lids properly tagged, spill buckets free of water"),
+      yna("Fill caps and adapters secure and sealed"),
+      yna("No obstructions in the fill pipes"),
+      yna("Sargel available, checking for water in fuel on weekly basis, no water found when each product was stuck with Sargel"),
+      yna("If spill bucket is double-walled, verified needle movement on dial. If no dial/double wall - then mark N/A"),
+      yna("Release detection equipment (ATG, line leak detector) operating normally"),
+      yna("Fuel reading stick in good condition (numbers legible)"),
+      yna("SPCC regulations trained and accessible"),
+      yna("Pumps in good working condition"),
+      yna("Any leaks or evidence of leaks such as stained concrete around dispensers/islands"),
+      yna("Vehicle ignition off and No Smoking signs posted on canopy poles and in good condition"),
+      yna("Other required pump decals posted and in good condition"),
+      yna("Fuel pump hoses crack free, not leaking, and flexible"),
+      yna("Canopy poles painted, canopy lighting in good working condition"),
+
+      section("Building Interior"),
+      yna("No roof leaks or other sources of water entering the store"),
+      yna("Air vents clean and surrounding ceiling tiles clean"),
+      yna("Restroom clean and floors dry"),
+      yna("Restroom toliet, fixtures, drains working properly, toliet not running constantly"),
+      yna("Hot water heater working properly, not rusted and not leaking"),
+      yna("All interior lighting in good working condition"),
+      yna("Emergency exit sign posted at each door and working properly"),
+      yna("Exit doors unlocked during business hours and only can be opened from the inside"),
+      yna("\"Employees Must Wash Hands Before Returning to Work\" sign posted in restroom"),
+      yna("Entrance door buzzer working properly"),
+      yna("Register area & register are visible from the outside, signs/displays do not block line of vision"),
+      yna("Security system & cameras in good working condition"),
+      yna("Computer clean, good air flow"),
+      yna("Panic Button tested monthly"),
+
+      section("Sales Floor/Register Area"),
+      yna("SDS manual available and easily accessible for all employees (kept in register area)"),
+      yna("Floor mat placed at entrance, good condition"),
+      yna("Entire floor clean, dry, in good repair, free of slip/trip/fall hazards, wet floor signs being used"),
+      yna("Cappuccino equipment being throughly cleaned including green gasket removed to clean"),
+      yna("Slushie machine filters being cleaned"),
+      yna("F'real machine maintenance done daily"),
+      yna("Microwave in good working condition"),
+      yna("Aisles are kept clear of displays, no electrical cords to trip over"),
+      yna("Floor displays at proper height (tripping hazard), no sharp edges"),
+      yna("No open containers of chemicals/cleaning supplies"),
+      yna("Sandwich case filters/fan area being cleaned"),
+
+      section("Storage Area/Back Room"),
+      yna("Hand truck available and in good working condition"),
+      yna("Hand truck used properly - facing direction of travel, one hand on load, not stacked above hand truck height"),
+      yna("Step stool and/or step ladder available and in good working condition"),
+      yna("Step ladder used properly - fully opened, don't use top two steps, face the ladder, positioned near work"),
+      yna("No evidence of unsafe climbing (no use of crates/boxes, no climbing on shelves)"),
+      yna("Proper lifting techniques trained and utilized"),
+      yna("Entire floor clean, dry, in good repair, free of slip/trip/fall hazards, wet floor signs being used"),
+      yna("Shelving/Racks stable and in good condition"),
+      yna("Items on shelving/racks stored correctly - heavy items on bottom, light litems on top"),
+      yna("Self retracting box cutter being used properly"),
+      yna("Merchandise and chemicals are kept clear of lighting, heaters, water heaters"),
+      yna("All food products stored on shelving/racks and not on floor, stored away from chemicals/cleaning agents"),
+      yna("All chemicals/cleaning are stored with secured lids and labeled properly"),
+      yna("Scoop available for Ice Machine"),
+      yna("Maximum 5 gallon bucket available to carry ice in"),
+      yna("All compressed gas cylinders secured"),
+      yna("Emergency exit door easily accessible"),
+      yna("Ice Makers in good working condition, filter changed as needed"),
+      yna("HVAC in good working condition, filter changed frequently"),
+      yna("Water Filters in good working condition, filter changed as needed"),
+
+      section("Freezer/Cooler"),
+      yna("Freezer/Cooler working properly"),
+      yna("Entire floor clean, dry, in good repair, free of slip/trip/fall hazards"),
+      yna("Freezer/Cooler door in good working condition, seals are in good condition, no condensation"),
+      yna("Shelving/Racks stable and in good condition"),
+      yna("Items on shelving/racks stored correctly - heavy items on bottom, light litems on top"),
+      yna("Foodservice items stored correctly and 6\" above the floor (ready to eat foods on the top shelf, raw foods below)"),
+      yna("No chemicals/cleaning agents stored in freezer/cooler"),
+      yna("Beer and milk crates or soda totes stacked below 5' maximum"),
+      yna("Items on shelving/racks stored correctly - heavy items on bottom, light litems on top"),
+      yna("Thermometers available and in good working condition"),
+      yna("Walk-In freezer/cooler inside door releases working properly"),
+
+      section("Office"),
+      yna("First Aid Kit/Supplies available"),
+      yna("Food Handlers/Server Cards posted in office area for each employee"),
+      yna("Severe Weather procedure posted in office area"),
+      yna("Store Contact Info & Key Contact Info posted on Employee Bulletin Board"),
+      yna("Staff is aware of incident reporting procedures - both employee and customer incidents"),
+      yna("Slip-Fall Reporting Procedure posted in office area"),
+      yna("Worker's Compensation posted in office area"),
+      yna("Summary of Work-Related Injuries and Illnesses posted in office area"),
+      yna("Robbery/Shoplifting Deterrence Policy posted in office area"),
+      yna("Federal Labor Law Poster posted in office area"),
+      yna("Missouri Labor Law Poster posted in office area"),
+      yna("Right to Work/E-Verify Poster posted in office area"),
+
+      section("Food Prep Area"),
+      yna("Entire floor clean, dry, in good repair, free of slip/trip/fall hazards, wet floor signs being used"),
+      yna("Aisles and floors free of clutter - All foodservice items stored minimum of 6\" above floor"),
+      yna("Grill and fryer exhaust and ventilation systems clean and in good repair"),
+      yna("Ansul fire suppression system inspections are current"),
+      yna("All food prep and storage equipment clean and in good repair"),
+      yna("All maintenance issues have been reported as required"),
+      yna("Proper care and use of hot and/or sharp equipment trained and in practice"),
+      yna("Knives stored using magnetic rack, or in container with handle up - Cleaned properly (not left in soapy dish water)"),
+      yna("Personal protective gear available and in use (hot pads, neoprene gloves, etc.)"),
+      yna("All chemicals and cleaning agents properly labeled and stored away from foodservice items and prep areas"),
+      yna("Thermometers available and working properly"),
+      yna("Self retracting box cutter used to open boxes"),
+      yna("Fire extinguishers current on inspections- Training on proper use current"),
+      yna("Combustibles kept away from heat sources (ovens, grill, fryer, toaster, etc.)"),
+      yna("Preventative cleaning completed on equipment regularly (Pizza Ovens, flat-top grills, cooling unit coils/filters)"),
+      yna("All food products properly dated and rotated using FIFO method"),
+      yna("Floor drains not clogged"),
+      yna("No leaks in any sink drains"),
+
+      section("Electrical Equipment and Fixtures"),
+      yna("Electrical panel and switchbox doors in place and closed"),
+      yna("Access to electrical panels, switchboxes, equipment kept clear (at least 36\")"),
+      yna("Electrical cords and receptacles in good condition"),
+      yna("No electrical extension cords used"),
+      yna("All electrical equipment grounded (3-wire plug or double insulated)"),
+      yna("Junction box covers in place and firmly attached"),
+      yna("Covers for switches and receptacles in place and firmly attached"),
+      yna("Outlets exposed to water fitted with water proof covers"),
+      yna("Outlets exposed to water equipped with GFCI's (test)")
+    ];
+
+    document.getElementById("questions").innerHTML = items.join("");
+
+    document.getElementById("auditForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      saveAuditFromForm(e.target);
+      window.location.href = "history.html";
+    });
+  </script>
+</body>
+</html>
