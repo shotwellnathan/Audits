@@ -1,1 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3158 Audits</title>
+  <style>
+    :root{
+      --bg: #0b0b10;
+      --card: rgba(255,255,255,0.92);
+      --text: #12131a;
+      --muted: rgba(18,19,26,0.65);
+      --line: rgba(18,19,26,0.12);
+      --bar: rgba(20,20,28,0.70);
+      --btn: rgba(255,255,255,0.16);
+      --btnHover: rgba(255,255,255,0.22);
+      --blue: #2f6cff;
+      --blueHover: #2458cc;
+      --shadow: 0 22px 60px rgba(0,0,0,0.45);
+      --radius: 18px;
+    }
 
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* Optional background color glow */
+    .bg{
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(900px 500px at 20% 15%, rgba(120, 60, 255, 0.35), transparent 60%),
+        radial-gradient(900px 500px at 80% 85%, rgba(255, 60, 200, 0.25), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65));
+      z-index: -1;
+    }
+
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--bar);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .brandText{
+      display:flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+    .brandText .title{
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.2px;
+    }
+    .brandText .sub{
+      color: rgba(255,255,255,0.75);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: var(--btn);
+      color: white;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      transition: 120ms ease;
+    }
+    .btn:hover{ background: var(--btnHover); transform: translateY(-1px); }
+
+    .btn.primary{
+      background: var(--blue);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .btn.primary:hover{ background: var(--blueHover); }
+
+    .wrap{
+      max-width: 1040px;
+      margin: 28px auto 40px;
+      padding: 0 18px;
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,0.40);
+    }
+
+    .cardHeader{
+      padding: 22px 24px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .cardHeader h1{
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.2px;
+    }
+    .cardHeader p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .cardBody{ padding: 22px 24px 26px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .tile{
+      display:block;
+      text-decoration:none;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(18,19,26,0.10);
+      border-radius: 14px;
+      padding: 16px;
+      transition: 140ms ease;
+      min-height: 92px;
+    }
+    .tile:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+    .tileTitle{
+      font-weight: 900;
+      color: #111;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+    .tileSub{
+      color: rgba(18,19,26,0.7);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .foot{
+      margin-top: 14px;
+      text-align:center;
+      color: rgba(255,255,255,0.65);
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px){
+      .wrap{ margin-top: 16px; }
+      .cardHeader{ padding: 18px; }
+      .cardBody{ padding: 18px; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg"></div>
+
+  <header class="topbar">
+    <div class="brandText">
+      <div class="title">Store 3158 • Audit Portal</div>
+      <div class="sub">Fast Fields • SSI • Food • Safety • Merchandiser</div>
+    </div>
+
+    <nav class="actions">
+      <!-- History page placeholder for now -->
+      <a class="btn primary" href="history.html">Audit History</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <header class="cardHeader">
+        <h1>Start an Audit</h1>
+        <p>Select a category below to begin. (We’ll build each audit form next.)</p>
+      </header>
+
+      <div class="cardBody">
+        <div class="grid">
+          <!-- For now these can point to placeholders -->
+          <a class="tile" href="fast-fields.html">
+            <div class="tileTitle">Fast Fields</div>
+            <div class="tileSub">Quarterly audit readiness</div>
+          </a>
+
+          <a class="tile" href="ssi.html">
+            <div class="tileTitle">SSI</div>
+            <div class="tileSub">Standards + inspection checks</div>
+          </a>
+
+          <a class="tile" href="food.html">
+            <div class="tileTitle">Food</div>
+            <div class="tileSub">Kitchen + food quality items</div>
+          </a>
+
+          <a class="tile" href="safety.html">
+            <div class="tileTitle">Safety</div>
+            <div class="tileSub">Safety + compliance checks</div>
+          </a>
+
+          <a class="tile" href="merchandiser.html">
+            <div class="tileTitle">Merchandiser</div>
+            <div class="tileSub">Planograms + presentation</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">Tip: Add this page to your iPhone Home Screen for quick audits.</div>
+  </main>
+</body>
+</html>
