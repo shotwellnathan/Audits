@@ -206,6 +206,27 @@ function notesOnly(label){
   `;
 }
 
+// Yes / No / N/A (no comments)
+function yna(label){
+  const id = uid();
+  return `
+    <div class="auditItem">
+      <div class="auditQuestion">${escapeHtml(label)}</div>
+
+      <div class="yn">
+        <div class="ynOptions">
+          <label><input type="radio" name="${id}_yn" value="Yes"> Yes</label>
+          <label><input type="radio" name="${id}_yn" value="No"> No</label>
+          <label><input type="radio" name="${id}_yn" value="N/A"> N/A</label>
+        </div>
+      </div>
+
+      <input type="hidden" name="${id}_label" value="${escapeHtml(label)}">
+      <input type="hidden" name="${id}_type" value="yn">
+    </div>
+  `;
+}
+
 function triOuts(){
   const id = uid();
   return `
