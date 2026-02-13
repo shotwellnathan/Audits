@@ -137,30 +137,24 @@ function escapeHtml(s){
 // ---------- Form UI builders ----------
 function yn(label){
   const id = uid();
-  // no default selection: neither radio checked
+
   return `
-    <div class="q">
-      <div class="qHead">
-        <div class="qTitle">${escapeHtml(label)}</div>
-        <div class="yn">
-          <label class="ynOpt">
-            <input type="radio" name="${id}_yn" value="Yes">
-            <span>Yes</span>
-          </label>
-          <label class="ynOpt">
-            <input type="radio" name="${id}_yn" value="No">
-            <span>No</span>
-          </label>
-        </div>
+    <div class="auditItem">
+      <div class="auditQuestion">${escapeHtml(label)}</div>
+
+      <div class="ynRow">
+        <label>
+          <input type="radio" name="${id}" value="Yes">
+          Yes
+        </label>
+
+        <label>
+          <input type="radio" name="${id}" value="No">
+          No
+        </label>
       </div>
 
-      <div class="field">
-        <label class="small">Notes</label>
-        <textarea name="${id}_notes" placeholder="Comment..."></textarea>
-      </div>
-
-      <input type="hidden" name="${id}_label" value="${escapeHtml(label)}">
-      <input type="hidden" name="${id}_type" value="yn">
+      <textarea class="notes" placeholder="Notes"></textarea>
     </div>
   `;
 }
