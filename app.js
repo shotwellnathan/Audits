@@ -1,5 +1,6 @@
 // app.js — local, private audit storage for GitHub Pages
 const AUDIT_KEY = "bt_3158_audits_v1";
+const DEVICE_KEY = "bt_3158_device_name_v1";
 
 function loadAudits(){
   try{
@@ -10,6 +11,19 @@ function loadAudits(){
   }catch(e){
     return [];
   }
+}
+
+function getDeviceName(){
+  try{
+    return (localStorage.getItem(DEVICE_KEY) || "").trim();
+  }catch(e){
+    return "";
+  }
+}
+
+function setDeviceName(name){
+  const clean = (name || "").trim();
+  localStorage.setItem(DEVICE_KEY, clean);
 }
 
 function saveAudits(audits){
