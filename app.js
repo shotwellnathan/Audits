@@ -153,6 +153,12 @@ function category(title){
   return `<div class="catTitle">${escapeHtml(title)}</div>`;
 }
 
+function section(title){
+  return `
+    <div class="auditSection">${escapeHtml(title)}</div>
+  `;
+}
+
 function yn(label){
   const id = uid();
   return `
