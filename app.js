@@ -390,23 +390,36 @@ metaBits.push(fmtDT(audit.created_at));
   const missing = audit.items.filter(i=>i.kind==="yn" && !i.value).length;
 
   const details = audit.items.map(i => {
-    if(i.kind === "yn"){
-      return `
-        <div class="detailRow">
-          <div class="detailLabel">${escapeHtml(i.label)}</div>
-          <div class="detailVal">${escapeHtml(i.value || "—")}</div>
-          ${i.notes ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>` : ``}
-        </div>
-      `;
-    }
+  if(i.kind === "yn"){
     return `
       <div class="detailRow">
         <div class="detailLabel">${escapeHtml(i.label)}</div>
-        ${i.notes ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>` : `<div class="detailNotes muted">—</div>`}
+        <div class="detailVal">${escapeHtml(i.value || "—")}</div>
+        ${i.notes ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>` : ``}
       </div>
     `;
-  }).join("");
+  }
 
+  if(i.kind === "calc"){
+    const v = (i.value === 0 || i.value) ? String(i.value) : "—";
+    return `
+      <div class="detailRow">
+        <div class="detailLabel">${escapeHtml(i.label)}</div>
+        <div class="detailVal">${escapeHtml(v)}</div>
+      </div>
+    `;
+  }
+
+  // notes (or anything else)
+  return `
+    <div class="detailRow">
+      <div class="detailLabel">${escapeHtml(i.label)}</div>
+      ${i.notes
+        ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>`
+        : `<div class="detailNotes muted">—</div>`}
+    </div>
+  `;
+}).join("");
   return `
     <details class="item">
       <summary class="itemSummary">
