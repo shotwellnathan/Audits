@@ -300,3 +300,21 @@ input[type="checkbox"]{
   position: relative;
   z-index: 2;
 }
+
+/* History row buttons sit on a light card — give them contrast */
+.itemSummary .btn{
+  background: rgba(18,19,26,0.10) !important;
+  border-color: rgba(18,19,26,0.18) !important;
+  color: rgba(18,19,26,0.95) !important;
+}
+
+.itemSummary .btn:hover{
+  background: rgba(18,19,26,0.14) !important;
+}
+
+/* Keep Delete looking like Delete */
+.itemSummary .btn.danger{
+  background: rgba(220,38,38,0.16) !important;
+  border-color: rgba(220,38,38,0.25) !important;
+  color: rgba(18,19,26,0.95) !important; /* readable on light */
+}
