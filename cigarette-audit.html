@@ -221,13 +221,8 @@
           <label>Rack ${i} (packs)</label>
           <input inputmode="numeric" pattern="[0-9]*" name="pack_rack_${i}" placeholder="0" />
         </div>
-        <div class="field">
-          <label>Rack ${i} value</label>
-          <input readonly id="pack_rack_${i}_value" />
         </div>
       `;
-      packWrap.appendChild(div);
-    }
 
     // ---- build carton sections ----
     const cartonWrap = $("cartonSections");
@@ -238,10 +233,6 @@
         <div class="field">
           <label>Section ${i} (cartons)</label>
           <input inputmode="numeric" pattern="[0-9]*" name="carton_section_${i}" placeholder="0" />
-        </div>
-        <div class="field">
-          <label>Section ${i} value</label>
-          <input readonly id="carton_section_${i}_value" />
         </div>
       `;
       cartonWrap.appendChild(div);
