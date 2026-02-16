@@ -473,9 +473,17 @@ function fmtMoney(x){
 </div>
       </summary>
       <div class="detailsBody">
-        ${audit.header_notes ? `<div class="panel" style="margin-bottom:10px;"><div class="itemTitle">Header Notes</div><div style="white-space:pre-wrap;margin-top:6px;">${escapeHtml(audit.header_notes)}</div></div>` : ``}
-        ${details}
-      </div>
+  <div class="row noPrint" style="justify-content:flex-end; gap:8px; margin: 10px 0;">
+    <a class="btn smallBtn" href="print.html?id=${audit.id}" target="_blank">Print</a>
+  </div>
+
+  ${audit.header_notes ? `<div class="panel" style="margin-bottom:10px;">
+    <div class="itemTitle">Header Notes</div>
+    <div style="white-space:pre-wrap;margin-top:6px;">${escapeHtml(audit.header_notes)}</div>
+  </div>` : ``}
+
+  ${details}
+</div>
     </details>
   `;
 }
