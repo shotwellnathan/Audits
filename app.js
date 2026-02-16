@@ -377,13 +377,26 @@ function renderHistoryGroupedByType(container){
   }).join("");
 }
 
+
+function fmtMoney(x){
+  try{
+    const n = Number(x || 0);
+    return n.toLocaleString(undefined, { style:"currency", currency:"USD" });
+  }catch(e){
+    return String(x ?? "");
+  }
+}
+
 function historyItem(audit){
   const metaBits = [];
-if(audit.audit_date) metaBits.push(audit.audit_date);
-if(audit.audit_time) metaBits.push(audit.audit_time);
-if(audit.auditor) metaBits.push(`Auditor: ${audit.auditor}`);
-if(audit.device_name) metaBits.push(`Device: ${audit.device_name}`);
-metaBits.push(fmtDT(audit.created_at));
+  if(audit.audit_date) metaBits.push(audit.audit_date);
+  if(audit.audit_time) metaBits.push(audit.audit_time);
+  if(audit.auditor) metaBits.push(`Auditor: ${audit.auditor}`);
+  if(audit.device_name) metaBits.push(`Device: ${audit.device_name}`);
+  metaBits.push(fmtDT(audit.created_at));
+
+  // Safe items
+  const items = Array.isArray(audit.items) ? audit.items : [];
 
   // --- Special summary line for Cigarette Count audits ---
   let extraSummary = "";
@@ -404,86 +417,80 @@ metaBits.push(fmtDT(audit.created_at));
     `;
   }
 
-function fmtMoney(x){
-  try{
-    const n = Number(x || 0);
-    return n.toLocaleString(undefined, { style:"currency", currency:"USD" });
-  }catch(e){
-    return String(x ?? "");
-  }
-}
-  
-  const yes = audit.items.filter(i=>i.kind==="yn" && i.value==="Yes").length;
-  const no  = audit.items.filter(i=>i.kind==="yn" && i.value==="No").length;
-  const missing = audit.items.filter(i=>i.kind==="yn" && !i.value).length;
+  const yes = items.filter(i=>i.kind==="yn" && i.value==="Yes").length;
+  const no  = items.filter(i=>i.kind==="yn" && i.value==="No").length;
+  const missing = items.filter(i=>i.kind==="yn" && !i.value).length;
 
-  const details = audit.items.map(i => {
-  if(i.kind === "yn"){
+  const details = items.map(i => {
+    if(i.kind === "yn"){
+      return `
+        <div class="detailRow">
+          <div class="detailLabel">${escapeHtml(i.label)}</div>
+          <div class="detailVal">${escapeHtml(i.value || "—")}</div>
+          ${i.notes ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>` : ``}
+        </div>
+      `;
+    }
+
+    if(i.kind === "calc"){
+      const v = (i.value === 0 || i.value) ? String(i.value) : "—";
+      return `
+        <div class="detailRow">
+          <div class="detailLabel">${escapeHtml(i.label)}</div>
+          <div class="detailVal">${escapeHtml(v)}</div>
+        </div>
+      `;
+    }
+
+    // notes (or anything else)
     return `
       <div class="detailRow">
         <div class="detailLabel">${escapeHtml(i.label)}</div>
-        <div class="detailVal">${escapeHtml(i.value || "—")}</div>
-        ${i.notes ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>` : ``}
+        ${i.notes
+          ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>`
+          : `<div class="detailNotes muted">—</div>`}
       </div>
     `;
-  }
+  }).join("");
 
-  if(i.kind === "calc"){
-    const v = (i.value === 0 || i.value) ? String(i.value) : "—";
-    return `
-      <div class="detailRow">
-        <div class="detailLabel">${escapeHtml(i.label)}</div>
-        <div class="detailVal">${escapeHtml(v)}</div>
-      </div>
-    `;
-  }
+  const yesNoLine = (audit.audit_type === "Cigarette Count")
+    ? ""
+    : `<div class="muted">Yes: ${yes} • No: ${no} • Blank: ${missing}</div>`;
 
-  // notes (or anything else)
-  return `
-    <div class="detailRow">
-      <div class="detailLabel">${escapeHtml(i.label)}</div>
-      ${i.notes
-        ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>`
-        : `<div class="detailNotes muted">—</div>`}
-    </div>
-  `;
-}).join("");
+  // Always show Print
+  const printBtn = `<a class="btn smallBtn" href="print.html?id=${audit.id}" target="_blank" onclick="event.stopPropagation();">Print</a>`;
+
   return `
     <details class="item">
       <summary class="itemSummary">
         <div>
-          <div class="itemTitle">${escapeHtml(audit.audit_type)} Audit</div>
+          <div class="itemTitle">${escapeHtml(audit.audit_type || "Audit")}</div>
           <div class="muted">${escapeHtml(metaBits.join(" • "))}</div>
           ${extraSummary}
-          ${audit.audit_type === "Cigarette Count"
-  ? ""
-  : `<div class="muted">Yes: ${yes} • No: ${no} • Blank: ${missing}</div>`
-}
+          ${yesNoLine}
         </div>
+
         <div style="display:flex; gap:8px; align-items:center;">
-  <a class="btn smallBtn" href="print.html?id=${audit.id}" target="_blank"
-     onclick="event.stopPropagation();">
-     Print
-  </a>
-
-  <button class="btn danger smallBtn" type="button"
-    onclick="event.preventDefault(); event.stopPropagation(); deleteAudit('${audit.id}')">
-    Delete
-  </button>
-</div>
+          ${printBtn}
+          <button class="btn danger smallBtn" type="button"
+            onclick="event.preventDefault(); event.stopPropagation(); deleteAudit('${audit.id}')">
+            Delete
+          </button>
+        </div>
       </summary>
+
       <div class="detailsBody">
-  <div class="row noPrint" style="justify-content:flex-end; gap:8px; margin: 10px 0;">
-    <a class="btn smallBtn" href="print.html?id=${audit.id}" target="_blank">Print</a>
-  </div>
+        <div class="row" style="justify-content:flex-end; gap:8px; margin: 10px 0;">
+          ${printBtn}
+        </div>
 
-  ${audit.header_notes ? `<div class="panel" style="margin-bottom:10px;">
-    <div class="itemTitle">Header Notes</div>
-    <div style="white-space:pre-wrap;margin-top:6px;">${escapeHtml(audit.header_notes)}</div>
-  </div>` : ``}
+        ${audit.header_notes ? `<div class="panel" style="margin-bottom:10px;">
+          <div class="itemTitle">Header Notes</div>
+          <div style="white-space:pre-wrap;margin-top:6px;">${escapeHtml(audit.header_notes)}</div>
+        </div>` : ``}
 
-  ${details}
-</div>
+        ${details || `<div class="muted">No detail items saved for this audit.</div>`}
+      </div>
     </details>
   `;
 }
