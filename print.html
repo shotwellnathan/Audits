@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Print Audit</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Print-friendly tweaks */
+    .topbar, .foot, .noPrint { display: none !important; }
+    body { background: white !important; }
+    .bg { display: none !important; }
+    .wrap { max-width: 900px; margin: 18px auto; }
+    .card { box-shadow: none !important; border: 1px solid rgba(0,0,0,0.12); }
+    .cardHeader { border-bottom: 1px solid rgba(0,0,0,0.12); }
+    .muted { color: rgba(0,0,0,0.65) !important; }
+    @media print{
+      .wrap { margin: 0; padding: 0; }
+      .card { border: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <header class="cardHeader">
+        <h1 id="title">Audit</h1>
+        <p id="meta" class="muted"></p>
+      </header>
+      <div class="cardBody">
+        <div id="content"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    // Get audit by id from URL: print.html?id=xxxx
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+
+    const audits = loadAudits();
+    const audit = audits.find(a => a.id === id);
+
+    if(!audit){
+      document.getElementById("content").innerHTML =
+        `<div class="panel"><div class="itemTitle">Audit not found.</div></div>`;
+    } else {
+      const metaBits = [];
+      if(audit.audit_date) metaBits.push(audit.audit_date);
+      if(audit.audit_time) metaBits.push(audit.audit_time);
+      if(audit.auditor) metaBits.push(`Auditor: ${audit.auditor}`);
+      if(audit.device_name) metaBits.push(`Device: ${audit.device_name}`);
+      metaBits.push(fmtDT(audit.created_at));
+
+      document.getElementById("title").textContent = audit.audit_type || "Audit";
+      document.getElementById("meta").textContent = metaBits.join(" • ");
+
+      const details = (audit.items || []).map(i => {
+        if(i.kind === "yn"){
+          return `
+            <div class="detailRow">
+              <div class="detailLabel">${escapeHtml(i.label)}</div>
+              <div class="detailVal">${escapeHtml(i.value || "—")}</div>
+              ${i.notes ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>` : ``}
+            </div>
+          `;
+        }
+        // notes-only
+        return `
+          <div class="detailRow">
+            <div class="detailLabel">${escapeHtml(i.label)}</div>
+            ${i.notes ? `<div class="detailNotes">${escapeHtml(i.notes)}</div>` : `<div class="detailNotes muted">—</div>`}
+          </div>
+        `;
+      }).join("");
+
+      const headerNotes = audit.header_notes
+        ? `<div class="panel" style="margin-bottom:12px;">
+             <div class="itemTitle">Header Notes</div>
+             <div style="white-space:pre-wrap;margin-top:6px;">${escapeHtml(audit.header_notes)}</div>
+           </div>`
+        : "";
+
+      document.getElementById("content").innerHTML = headerNotes + details;
+
+      // Auto-open print dialog
+      setTimeout(() => window.print(), 250);
+    }
+  </script>
+</body>
+</html>
