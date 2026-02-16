@@ -339,3 +339,10 @@ input[type="checkbox"]{
   border-color: rgba(220,38,38,0.25);
   color: white;
 }
+
+@media (min-width: 900px){
+  .itemSummary .btn{
+    background: rgba(18,19,26,0.12);
+    color: #12131a;
+  }
+}
