@@ -318,3 +318,24 @@ input[type="checkbox"]{
   border-color: rgba(220,38,38,0.25) !important;
   color: rgba(18,19,26,0.95) !important; /* readable on light */
 }
+
+/* Make action buttons visible on the light History cards */
+.itemSummary .btn,
+.detailsBody .btn{
+  background: rgba(18,19,26,0.08);
+  border-color: rgba(18,19,26,0.18);
+  color: rgba(18,19,26,0.92);
+}
+
+.itemSummary .btn:hover,
+.detailsBody .btn:hover{
+  background: rgba(18,19,26,0.12);
+}
+
+/* Keep the red Delete button as-is */
+.itemSummary .btn.danger,
+.detailsBody .btn.danger{
+  background: rgba(220,38,38,0.18);
+  border-color: rgba(220,38,38,0.25);
+  color: white;
+}
