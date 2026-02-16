@@ -460,7 +460,17 @@ function fmtMoney(x){
   : `<div class="muted">Yes: ${yes} • No: ${no} • Blank: ${missing}</div>`
 }
         </div>
-        <button class="btn danger smallBtn" type="button" onclick="event.preventDefault(); event.stopPropagation(); deleteAudit('${audit.id}')">Delete</button>
+        <div style="display:flex; gap:8px; align-items:center;">
+  <a class="btn smallBtn" href="print.html?id=${audit.id}" target="_blank"
+     onclick="event.stopPropagation();">
+     Print
+  </a>
+
+  <button class="btn danger smallBtn" type="button"
+    onclick="event.preventDefault(); event.stopPropagation(); deleteAudit('${audit.id}')">
+    Delete
+  </button>
+</div>
       </summary>
       <div class="detailsBody">
         ${audit.header_notes ? `<div class="panel" style="margin-bottom:10px;"><div class="itemTitle">Header Notes</div><div style="white-space:pre-wrap;margin-top:6px;">${escapeHtml(audit.header_notes)}</div></div>` : ``}
