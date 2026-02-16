@@ -25,19 +25,19 @@
     <section class="card">
       <header class="cardHeader">
         <h1>Cigarette Count</h1>
-        <p>Count packs + cartons, add truck cartons if needed, enter book total — it calculates Over/Short.</p>
+        <p>Enter packs + cartons. Inventory total auto-calculates. Book total is manual. Over/Short is auto.</p>
       </header>
 
       <div class="cardBody">
         <form id="cigForm" class="stack">
           <input type="hidden" name="audit_type" value="Cigarette Count" />
 
-          <!-- Header -->
+          <!-- Header (NO time here; time will be at bottom by Submit) -->
           <div class="panel">
             <div class="grid2">
               <div class="field">
-                <label>Employee</label>
-                <input name="auditor" placeholder="Your name" />
+                <label>Employee (optional)</label>
+                <input name="employee" placeholder="Name" />
               </div>
 
               <div class="field">
@@ -46,109 +46,135 @@
               </div>
 
               <div class="field">
-                <label>Time Finished Counting</label>
-                <input type="time" name="audit_time" />
+                <label>Notes (optional)</label>
+                <input name="header_notes" placeholder="Anything important" />
               </div>
 
               <div class="field">
-                <label>Notes (optional)</label>
-                <input name="header_notes" placeholder="Shift / anything important" />
+                <label>Prices</label>
+                <div class="muted" style="margin-top:6px;">
+                  Packs: <b>$8.00</b> • Cartons: <b>$80.00</b>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Counts -->
+          <!-- PACK RACKS (12 rows) -->
           <div class="panel">
             <div class="row" style="align-items:flex-end;">
               <div>
-                <div class="itemTitle">Counts</div>
-                <div class="muted">Packs × $8.00 • Cartons × $80.00 • Truck = cartons only</div>
+                <div class="itemTitle">Pack Racks (12)</div>
+                <div class="muted">Enter number of <b>packs</b> on each rack</div>
               </div>
-              <div class="muted" style="font-weight:900;">
-                Packs = $8 • Cartons = $80
-              </div>
+              <div class="muted" id="packsSubtotalLabel"></div>
             </div>
 
-            <div style="height:12px"></div>
+            <div id="packRacks" class="stack" style="margin-top:12px;"></div>
+          </div>
 
-            <!-- Quick inputs -->
-            <div class="grid2">
-              <div class="field">
-                <label>Truck Cartons Received (optional)</label>
-                <input id="truck_cartons" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
-                <div class="muted">If truck came before you counted, enter cartons received here.</div>
+          <!-- DISCOUNTED (one rack) -->
+          <div class="panel">
+            <div class="row" style="align-items:flex-end;">
+              <div>
+                <div class="itemTitle">Discounted (1 rack)</div>
+                <div class="muted">Enter number of <b>packs</b> in discounted</div>
               </div>
-
-              <div class="field">
-                <label>Book Total ($)</label>
-                <input id="book_total" type="number" step="0.01" inputmode="decimal" placeholder="0.00" />
-                <div class="muted">Type the book total from your paperwork.</div>
-              </div>
+              <div class="muted" id="discountSubtotalLabel"></div>
             </div>
 
-            <div style="height:14px"></div>
-
-            <!-- Rack list -->
-            <div id="rackList" class="stack"></div>
-
-            <div style="height:14px"></div>
-
-            <!-- Totals -->
-            <div class="panel" style="background: rgba(255,255,255,0.88);">
-              <div class="grid2">
-                <div class="field">
-                  <label>Total Packs Counted</label>
-                  <input id="packs_total" readonly />
-                </div>
-                <div class="field">
-                  <label>Packs Value ($)</label>
-                  <input id="packs_value" readonly />
-                </div>
-
-                <div class="field">
-                  <label>Total Cartons Counted</label>
-                  <input id="cartons_total" readonly />
-                </div>
-                <div class="field">
-                  <label>Cartons Value ($)</label>
-                  <input id="cartons_value" readonly />
-                </div>
-
-                <div class="field">
-                  <label>Truck Value ($)</label>
-                  <input id="truck_value" readonly />
-                </div>
-                <div class="field">
-                  <label>Inventory Total ($)</label>
-                  <input id="inventory_total" readonly />
-                </div>
-
-                <div class="field">
-                  <label>Over / Short</label>
-                  <input id="over_short_value" readonly />
-                </div>
-                <div class="field">
-                  <label>Status</label>
-                  <div class="panel" style="margin:0; padding:12px;">
-                    <div id="osStatus" style="font-size:14px;">
-                      <span class="muted">Enter Book Total to see status</span>
-                    </div>
-                  </div>
-                </div>
+            <div class="grid2" style="margin-top:12px;">
+              <div class="field">
+                <label>Discounted packs</label>
+                <input inputmode="numeric" pattern="[0-9]*" name="discount_packs" id="discount_packs" placeholder="0" />
               </div>
-
-              <div class="muted" style="margin-top:10px;">
-                Over/Short = Inventory Total − Book Total
+              <div class="field">
+                <label>Discounted value</label>
+                <input readonly id="discount_value" />
               </div>
             </div>
           </div>
 
-          <!-- Submit -->
+          <!-- CARTONS (5 sections) -->
+          <div class="panel">
+            <div class="row" style="align-items:flex-end;">
+              <div>
+                <div class="itemTitle">Cartons (5 sections)</div>
+                <div class="muted">Enter number of <b>cartons</b> in each section</div>
+              </div>
+              <div class="muted" id="cartonsSubtotalLabel"></div>
+            </div>
+
+            <div id="cartonSections" class="stack" style="margin-top:12px;"></div>
+          </div>
+
+          <!-- TRUCK CARTONS (one) -->
+          <div class="panel">
+            <div class="row" style="align-items:flex-end;">
+              <div>
+                <div class="itemTitle">Truck Cartons</div>
+                <div class="muted">If you received truck <b>before</b> counting, add cartons here</div>
+              </div>
+              <div class="muted" id="truckSubtotalLabel"></div>
+            </div>
+
+            <div class="grid2" style="margin-top:12px;">
+              <div class="field">
+                <label>Truck cartons received</label>
+                <input inputmode="numeric" pattern="[0-9]*" name="truck_cartons" id="truck_cartons" placeholder="0" />
+              </div>
+              <div class="field">
+                <label>Truck value</label>
+                <input readonly id="truck_value" />
+              </div>
+            </div>
+          </div>
+
+          <!-- BOOK TOTAL (manual) -->
+          <div class="panel">
+            <div class="itemTitle">Book Total (manual)</div>
+            <div class="muted">Enter the book total from your paperwork</div>
+
+            <div class="grid2" style="margin-top:12px;">
+              <div class="field">
+                <label>Book total ($)</label>
+                <input inputmode="decimal" name="book_total" id="book_total" placeholder="0.00" />
+              </div>
+              <div class="field">
+                <label>Packs equivalent (cartons count as 10 packs)</label>
+                <input readonly id="packs_equiv" />
+              </div>
+            </div>
+          </div>
+
+          <!-- TOTALS -->
+          <div class="panel">
+            <div class="grid2">
+              <div class="field">
+                <label>Inventory total ($)</label>
+                <input readonly id="inventory_total" />
+              </div>
+              <div class="field">
+                <label>Over / Short</label>
+                <input readonly id="over_short" />
+                <div class="muted" id="over_short_label" style="margin-top:6px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBMIT (time moved here) -->
           <div class="panel">
             <div class="row">
-              <a class="btn" href="index.html">Cancel</a>
-              <button class="btn primary" type="submit">Submit</button>
+              <div style="min-width:220px;">
+                <label style="display:block;margin-bottom:6px;">Time (optional)</label>
+                <input type="time" name="audit_time" id="audit_time" />
+              </div>
+
+              <div class="row" style="gap:10px;">
+                <a class="btn" href="index.html">Cancel</a>
+                <button class="btn primary" type="submit">Submit</button>
+              </div>
             </div>
+
             <p class="muted" style="margin-top:10px;">
               Saved locally on this device. Use Export/Import to share between devices.
             </p>
@@ -162,180 +188,224 @@
 
   <script src="app.js"></script>
   <script>
-    // ---------- constants ----------
+    // ---- config ----
     const PRICE_PACK = 8.00;
     const PRICE_CARTON = 80.00;
-    const RACK_COUNT = 18;
+    const PACK_RACKS = 12;
+    const CARTON_SECTIONS = 5;
+    const PACKS_PER_CARTON = 10;
 
-    // set today's date default
+    // ---- helpers ----
+    const $ = (id) => document.getElementById(id);
+    const nInt = (v) => {
+      const x = parseInt(String(v ?? "").replace(/[^\d-]/g,""), 10);
+      return Number.isFinite(x) && x > 0 ? x : 0;
+    };
+    const nMoney = (v) => {
+      const x = parseFloat(String(v ?? "").replace(/[^0-9.\-]/g,""));
+      return Number.isFinite(x) ? x : 0;
+    };
+    const money = (x) => (nMoney(x)).toLocaleString(undefined, { style:"currency", currency:"USD" });
+
+    // ---- date default ----
     const d = new Date();
-    document.getElementById("audit_date").value = d.toISOString().slice(0,10);
+    $("audit_date").value = d.toISOString().slice(0,10);
 
-    // build rack inputs
-    const rackList = document.getElementById("rackList");
-    rackList.innerHTML = Array.from({length: RACK_COUNT}, (_,i) => {
-      const n = i + 1;
-      return `
-        <div class="q">
-          <div class="qHead">
-            <div class="qTitle">Rack ${n}</div>
-          </div>
-
-          <div class="grid2">
-            <div class="field">
-              <label class="small">Packs (each × $8)</label>
-              <input class="packInput" data-rack="${n}" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
-            </div>
-            <div class="field">
-              <label class="small">Cartons (each × $80)</label>
-              <input class="cartonInput" data-rack="${n}" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
-            </div>
-          </div>
+    // ---- build pack racks ----
+    const packWrap = $("packRacks");
+    for(let i=1;i<=PACK_RACKS;i++){
+      const div = document.createElement("div");
+      div.className = "grid2";
+      div.innerHTML = `
+        <div class="field">
+          <label>Rack ${i} (packs)</label>
+          <input inputmode="numeric" pattern="[0-9]*" name="pack_rack_${i}" placeholder="0" />
+        </div>
+        <div class="field">
+          <label>Rack ${i} value</label>
+          <input readonly id="pack_rack_${i}_value" />
         </div>
       `;
-    }).join("");
-
-    // helpers
-    function num(el){
-      const v = (el.value || "").trim();
-      if(!v) return 0;
-      const n = Number(v);
-      return Number.isFinite(n) ? n : 0;
+      packWrap.appendChild(div);
     }
 
-    function money(n){
-      const x = Number(n) || 0;
-      return x.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    // ---- build carton sections ----
+    const cartonWrap = $("cartonSections");
+    for(let i=1;i<=CARTON_SECTIONS;i++){
+      const div = document.createElement("div");
+      div.className = "grid2";
+      div.innerHTML = `
+        <div class="field">
+          <label>Section ${i} (cartons)</label>
+          <input inputmode="numeric" pattern="[0-9]*" name="carton_section_${i}" placeholder="0" />
+        </div>
+        <div class="field">
+          <label>Section ${i} value</label>
+          <input readonly id="carton_section_${i}_value" />
+        </div>
+      `;
+      cartonWrap.appendChild(div);
     }
 
     function recalc(){
-      const packInputs = Array.from(document.querySelectorAll(".packInput"));
-      const cartonInputs = Array.from(document.querySelectorAll(".cartonInput"));
-
-      const packsTotal = packInputs.reduce((acc, el) => acc + num(el), 0);
-      const cartonsTotal = cartonInputs.reduce((acc, el) => acc + num(el), 0);
-
-      const truckCartons = num(document.getElementById("truck_cartons"));
-      const bookTotal = num(document.getElementById("book_total"));
-
-      const packsValue = packsTotal * PRICE_PACK;
-      const cartonsValue = cartonsTotal * PRICE_CARTON;
-      const truckValue = truckCartons * PRICE_CARTON;
-
-      const inventoryTotal = packsValue + cartonsValue + truckValue;
-      const overShort = inventoryTotal - bookTotal;
-
-      // write outputs
-      document.getElementById("packs_total").value = packsTotal;
-      document.getElementById("cartons_total").value = cartonsTotal;
-
-      document.getElementById("packs_value").value = money(packsValue);
-      document.getElementById("cartons_value").value = money(cartonsValue);
-      document.getElementById("truck_value").value = money(truckValue);
-
-      document.getElementById("inventory_total").value = money(inventoryTotal);
-      document.getElementById("over_short_value").value = money(overShort);
-
-      // status label (bold word + amount)
-      const status = document.getElementById("osStatus");
-
-      if(bookTotal === 0 && String(document.getElementById("book_total").value || "").trim() === ""){
-        status.innerHTML = `<span class="muted">Enter Book Total to see status</span>`;
-        return;
+      // packs
+      let packsTotal = 0;
+      for(let i=1;i<=PACK_RACKS;i++){
+        const v = nInt(document.querySelector(`[name="pack_rack_${i}"]`).value);
+        packsTotal += v;
+        $(`pack_rack_${i}_value`).value = money(v * PRICE_PACK);
       }
+      const packsValue = packsTotal * PRICE_PACK;
+      $("packsSubtotalLabel").textContent = `${packsTotal} packs • ${money(packsValue)}`;
 
-      if(Math.abs(overShort) < 0.005){
-        status.innerHTML = `<b>EVEN</b> — $0.00`;
-      }else if(overShort > 0){
-        status.innerHTML = `<b>OVER</b> — $${money(overShort)}`;
+      // discounted
+      const discountPacks = nInt($("discount_packs").value);
+      const discountValue = discountPacks * PRICE_PACK;
+      $("discount_value").value = money(discountValue);
+      $("discountSubtotalLabel").textContent = `${discountPacks} packs • ${money(discountValue)}`;
+
+      // cartons
+      let cartonsTotal = 0;
+      for(let i=1;i<=CARTON_SECTIONS;i++){
+        const v = nInt(document.querySelector(`[name="carton_section_${i}"]`).value);
+        cartonsTotal += v;
+        $(`carton_section_${i}_value`).value = money(v * PRICE_CARTON);
+      }
+      const cartonsValue = cartonsTotal * PRICE_CARTON;
+      $("cartonsSubtotalLabel").textContent = `${cartonsTotal} cartons • ${money(cartonsValue)}`;
+
+      // truck cartons
+      const truckCartons = nInt($("truck_cartons").value);
+      const truckValue = truckCartons * PRICE_CARTON;
+      $("truck_value").value = money(truckValue);
+      $("truckSubtotalLabel").textContent = `${truckCartons} cartons • ${money(truckValue)}`;
+
+      // inventory total
+      const inventoryTotal = packsValue + discountValue + cartonsValue + truckValue;
+      $("inventory_total").value = money(inventoryTotal);
+
+      // packs equivalent (cartons count as 10 packs)
+      const packsEquiv = packsTotal + discountPacks + (cartonsTotal * PACKS_PER_CARTON) + (truckCartons * PACKS_PER_CARTON);
+      $("packs_equiv").value = `${packsEquiv} packs`;
+
+      // over/short
+      const book = nMoney($("book_total").value);
+      const diff = inventoryTotal - book; // positive = over
+      $("over_short").value = money(Math.abs(diff));
+
+      const label = $("over_short_label");
+      if(book === 0 && inventoryTotal === 0){
+        label.innerHTML = `<span class="muted">Enter counts + book total to calculate.</span>`;
+      }else if(diff > 0){
+        label.innerHTML = `<b>OVER</b> • ${money(diff)}`;
+      }else if(diff < 0){
+        label.innerHTML = `<b>SHORT</b> • ${money(Math.abs(diff))}`;
       }else{
-        status.innerHTML = `<b>SHORT</b> — $${money(Math.abs(overShort))}`;
+        label.innerHTML = `<b>EVEN</b> • ${money(0)}`;
       }
     }
 
-    // recalc on input
-    document.addEventListener("input", (e) => {
-      if(e.target.matches(".packInput, .cartonInput, #truck_cartons, #book_total")){
-        recalc();
-      }
+    // recalc on any input changes
+    document.querySelectorAll("input").forEach(inp => {
+      inp.addEventListener("input", recalc);
+      inp.addEventListener("change", recalc);
     });
-
-    // initial
     recalc();
 
-    // save into same history storage as other audits
+    // ---- submit: save into audit storage with a nice summary + full details ----
     document.getElementById("cigForm").addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // collect rack values
-      const packInputs = Array.from(document.querySelectorAll(".packInput"));
-      const cartonInputs = Array.from(document.querySelectorAll(".cartonInput"));
-
-      const racks = [];
-      for(let i=1;i<=RACK_COUNT;i++){
-        const p = packInputs.find(x => Number(x.dataset.rack) === i);
-        const c = cartonInputs.find(x => Number(x.dataset.rack) === i);
-        racks.push({
-          rack: i,
-          packs: p ? num(p) : 0,
-          cartons: c ? num(c) : 0
-        });
-      }
-
-      const truckCartons = num(document.getElementById("truck_cartons"));
-      const bookTotal = num(document.getElementById("book_total"));
-
-      // compute totals again for saved record
-      const packsTotal = racks.reduce((a,r)=>a+r.packs,0);
-      const cartonsTotal = racks.reduce((a,r)=>a+r.cartons,0);
-
-      const packsValue = packsTotal * PRICE_PACK;
-      const cartonsValue = cartonsTotal * PRICE_CARTON;
-      const truckValue = truckCartons * PRICE_CARTON;
-      const inventoryTotal = packsValue + cartonsValue + truckValue;
-      const overShort = inventoryTotal - bookTotal;
-
       const fd = new FormData(e.target);
 
+      // totals again (source of truth)
+      let packsTotal = 0;
+      const packRacks = [];
+      for(let i=1;i<=PACK_RACKS;i++){
+        const v = nInt(fd.get(`pack_rack_${i}`));
+        packsTotal += v;
+        packRacks.push({ rack:i, packs:v });
+      }
+      const discountPacks = nInt(fd.get("discount_packs"));
+
+      let cartonsTotal = 0;
+      const cartonSections = [];
+      for(let i=1;i<=CARTON_SECTIONS;i++){
+        const v = nInt(fd.get(`carton_section_${i}`));
+        cartonsTotal += v;
+        cartonSections.push({ section:i, cartons:v });
+      }
+      const truckCartons = nInt(fd.get("truck_cartons"));
+
+      const inventoryTotal =
+        (packsTotal * PRICE_PACK) +
+        (discountPacks * PRICE_PACK) +
+        (cartonsTotal * PRICE_CARTON) +
+        (truckCartons * PRICE_CARTON);
+
+      const book = nMoney(fd.get("book_total"));
+      const diff = inventoryTotal - book;
+
+      const packsEquiv = packsTotal + discountPacks + (cartonsTotal * PACKS_PER_CARTON) + (truckCartons * PACKS_PER_CARTON);
+      const overShortLabel = diff > 0 ? "OVER" : diff < 0 ? "SHORT" : "EVEN";
+
+      // build audit object compatible with your existing history
       const audit = {
-        id: uid(),
-        created_at: nowISO(),
+        id: (Math.random().toString(16).slice(2) + "-" + Date.now().toString(16)),
+        created_at: new Date().toISOString(),
         audit_type: "Cigarette Count",
-        auditor: (fd.get("auditor") || "").toString(),
         audit_date: (fd.get("audit_date") || "").toString(),
         audit_time: (fd.get("audit_time") || "").toString(),
         header_notes: (fd.get("header_notes") || "").toString(),
-        device_name: getDeviceName(),
+        employee: (fd.get("employee") || "").toString(),
+        device_name: (typeof getDeviceName === "function" ? getDeviceName() : ""),
+        cig: {
+          price_pack: PRICE_PACK,
+          price_carton: PRICE_CARTON,
+          packs_per_carton: PACKS_PER_CARTON,
+          packs_total: packsTotal,
+          discounted_packs: discountPacks,
+          cartons_total: cartonsTotal,
+          truck_cartons: truckCartons,
+          packs_equiv: packsEquiv,
+          inventory_total: inventoryTotal,
+          book_total: book,
+          over_short_label: overShortLabel,
+          over_short_value: Math.abs(diff),
+          diff: diff,
+          pack_racks: packRacks,
+          carton_sections: cartonSections
+        },
+        // also populate items so your existing “details view” works
         items: []
       };
 
-      // store rack lines (kept compact but exact)
-      racks.forEach(r => {
-        audit.items.push({ label: `Rack ${r.rack} Packs`, kind:"calc", value: r.packs });
-        audit.items.push({ label: `Rack ${r.rack} Cartons`, kind:"calc", value: r.cartons });
-      });
+      // Details items (packs)
+      audit.items.push({ label:`Packs (total)`, kind:"notes", notes:`${packsTotal} packs` });
+      for(const r of packRacks){
+        audit.items.push({ label:`Rack ${r.rack} (packs)`, kind:"notes", notes:String(r.packs) });
+      }
 
-      // store totals
-      audit.items.push({ label: "Truck Cartons", kind:"calc", value: truckCartons });
-      audit.items.push({ label: "Total Packs", kind:"calc", value: packsTotal });
-      audit.items.push({ label: "Total Cartons", kind:"calc", value: cartonsTotal });
+      // discounted
+      audit.items.push({ label:`Discounted (packs)`, kind:"notes", notes:String(discountPacks) });
 
-      audit.items.push({ label: "Packs Value ($)", kind:"calc", value: Number(packsValue.toFixed(2)) });
-      audit.items.push({ label: "Cartons Value ($)", kind:"calc", value: Number(cartonsValue.toFixed(2)) });
-      audit.items.push({ label: "Truck Value ($)", kind:"calc", value: Number(truckValue.toFixed(2)) });
+      // cartons
+      audit.items.push({ label:`Cartons (total)`, kind:"notes", notes:`${cartonsTotal} cartons` });
+      for(const s of cartonSections){
+        audit.items.push({ label:`Carton Section ${s.section}`, kind:"notes", notes:String(s.cartons) });
+      }
 
-      audit.items.push({ label: "Inventory Total ($)", kind:"calc", value: Number(inventoryTotal.toFixed(2)) });
-      audit.items.push({ label: "Book Total ($)", kind:"calc", value: Number(bookTotal.toFixed(2)) });
-      audit.items.push({
-        label: "Over/Short ($)",
-        kind:"calc",
-        value: Number(overShort.toFixed(2))
-      });
+      // truck / totals
+      audit.items.push({ label:`Truck Cartons`, kind:"notes", notes:String(truckCartons) });
+      audit.items.push({ label:`Packs Equivalent (cartons=10 packs)`, kind:"notes", notes:`${packsEquiv} packs` });
+      audit.items.push({ label:`Inventory Total`, kind:"notes", notes: money(inventoryTotal) });
+      audit.items.push({ label:`Book Total`, kind:"notes", notes: money(book) });
+      audit.items.push({ label:`Over/Short`, kind:"notes", notes: `${overShortLabel} • ${money(Math.abs(diff))}` });
 
-      // newest first
-      const audits = loadAudits();
+      // Save using your existing storage
+      const audits = (typeof loadAudits === "function" ? loadAudits() : []);
       audits.unshift(audit);
-      saveAudits(audits);
+      if(typeof saveAudits === "function") saveAudits(audits);
 
       window.location.href = "history.html";
     });
