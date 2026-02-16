@@ -384,6 +384,34 @@ if(audit.audit_time) metaBits.push(audit.audit_time);
 if(audit.auditor) metaBits.push(`Auditor: ${audit.auditor}`);
 if(audit.device_name) metaBits.push(`Device: ${audit.device_name}`);
 metaBits.push(fmtDT(audit.created_at));
+
+  // --- Special summary line for Cigarette Count audits ---
+  let extraSummary = "";
+  if(audit.audit_type === "Cigarette Count" && audit.cig){
+    const packsEq = audit.cig.packs_equiv ?? "";
+    const inv = audit.cig.inventory_total ?? 0;
+    const book = audit.cig.book_total ?? 0;
+    const label = audit.cig.over_short_label ?? "";
+    const os = audit.cig.over_short_value ?? 0;
+
+    extraSummary = `
+      <div class="muted">
+        Packs: <b>${escapeHtml(String(packsEq))}</b>
+        • Inventory: <b>${escapeHtml(fmtMoney(inv))}</b>
+        • Book: <b>${escapeHtml(fmtMoney(book))}</b>
+        • <b>${escapeHtml(label)}</b>: <b>${escapeHtml(fmtMoney(os))}</b>
+      </div>
+    `;
+  }
+
+function fmtMoney(x){
+  try{
+    const n = Number(x || 0);
+    return n.toLocaleString(undefined, { style:"currency", currency:"USD" });
+  }catch(e){
+    return String(x ?? "");
+  }
+}
   
   const yes = audit.items.filter(i=>i.kind==="yn" && i.value==="Yes").length;
   const no  = audit.items.filter(i=>i.kind==="yn" && i.value==="No").length;
