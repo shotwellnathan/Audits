@@ -211,7 +211,7 @@
     const d = new Date();
     $("audit_date").value = d.toISOString().slice(0,10);
 
-    // ---- build pack racks ----
+      // ---- build pack racks ----
     const packWrap = $("packRacks");
     for(let i=1;i<=PACK_RACKS;i++){
       const div = document.createElement("div");
@@ -221,8 +221,13 @@
           <label>Rack ${i} (packs)</label>
           <input inputmode="numeric" pattern="[0-9]*" name="pack_rack_${i}" placeholder="0" />
         </div>
+        <div class="field">
+          <label>Rack ${i} value</label>
+          <input readonly id="pack_rack_${i}_value" />
         </div>
       `;
+      packWrap.appendChild(div);
+    }
 
     // ---- build carton sections ----
     const cartonWrap = $("cartonSections");
@@ -233,6 +238,10 @@
         <div class="field">
           <label>Section ${i} (cartons)</label>
           <input inputmode="numeric" pattern="[0-9]*" name="carton_section_${i}" placeholder="0" />
+        </div>
+        <div class="field">
+          <label>Section ${i} value</label>
+          <input readonly id="carton_section_${i}_value" />
         </div>
       `;
       cartonWrap.appendChild(div);
@@ -248,6 +257,7 @@
       }
       const packsValue = packsTotal * PRICE_PACK;
       $("packsSubtotalLabel").textContent = `${packsTotal} packs • ${money(packsValue)}`;
+
 
       // discounted
       const discountPacks = nInt($("discount_packs").value);
