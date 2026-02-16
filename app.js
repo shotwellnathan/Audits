@@ -455,7 +455,10 @@ function fmtMoney(x){
           <div class="itemTitle">${escapeHtml(audit.audit_type)} Audit</div>
           <div class="muted">${escapeHtml(metaBits.join(" • "))}</div>
           ${extraSummary}
-          <div class="muted">Yes: ${yes} • No: ${no} • Blank: ${missing}</div>
+          ${audit.audit_type === "Cigarette Count"
+  ? ""
+  : `<div class="muted">Yes: ${yes} • No: ${no} • Blank: ${missing}</div>`
+}
         </div>
         <button class="btn danger smallBtn" type="button" onclick="event.preventDefault(); event.stopPropagation(); deleteAudit('${audit.id}')">Delete</button>
       </summary>
