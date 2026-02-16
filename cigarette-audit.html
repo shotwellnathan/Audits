@@ -352,7 +352,7 @@
       // build audit object compatible with your existing history
       const audit = {
         id: (Math.random().toString(16).slice(2) + "-" + Date.now().toString(16)),
-        created_at: new Date().toISOString(),
+        
         audit_type: "Cigarette Count",
         audit_date: (fd.get("audit_date") || "").toString(),
         audit_time: (fd.get("audit_time") || "").toString(),
