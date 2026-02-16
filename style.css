@@ -276,3 +276,27 @@ input[type="checkbox"]{
   min-height: 92px;
   resize: vertical;
 }
+
+/* ---- Fix invisible Print button inside <summary> ---- */
+.itemSummary .btn{
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #fff !important;
+}
+
+.itemSummary a.btn{
+  display: inline-flex !important;
+  text-decoration: none !important;
+}
+
+/* Some browsers get weird with summary children */
+.itemSummary{
+  position: relative;
+  z-index: 1;
+}
+
+.itemSummary .btn,
+.itemSummary button{
+  position: relative;
+  z-index: 2;
+}
